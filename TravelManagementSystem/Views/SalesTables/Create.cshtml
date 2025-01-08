@@ -1,0 +1,114 @@
+﻿@model TravelManagementSystem.Models.SalesTable
+
+@{
+    ViewData["Title"] = "Create Sales";
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <div class="card shadow mb-4 col-lg-12">
+        <div class="card-body text-center bg-warning">
+            <h4 class="text-light">Create Sales</h4>
+        </div>
+    </div>
+
+    <form class="border border-warning shadow col-lg-12" enctype="multipart/form-data" asp-controller="SalesTables" asp-action="Create" method="post">
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="AgentId" class="control-label"></label>
+                <select asp-for="AgentId" class="form-control" asp-items="ViewBag.AgentId"></select>
+                <span asp-validation-for="AgentId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Company" class="control-label"></label>
+                <input asp-for="Company" class="form-control" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="Country" class="control-label"></label>
+                <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.Trade>()"></select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="SubTrade" class="control-label"></label>
+                <input asp-for="SubTrade" class="form-control" />
+                <span asp-validation-for="SubTrade" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="FlightOn" class="control-label"></label>
+                <input asp-for="FlightOn" class="form-control" type="datetime-local" />
+                <span asp-validation-for="FlightOn" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Destination" class="control-label"></label>
+                <input asp-for="Destination" class="form-control" />
+                <span asp-validation-for="Destination" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="Country" class="control-label"></label>
+                <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Credit" class="control-label"></label>
+                <input asp-for="Credit" class="form-control" />
+                <span asp-validation-for="Credit" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="Debit" class="control-label"></label>
+                <input asp-for="Debit" class="form-control" />
+                <span asp-validation-for="Debit" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Balance" class="control-label"></label>
+                <input asp-for="Balance" class="form-control disabled" readonly />
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" readonly />
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <input type="submit" value="Create" class="btn btn-warning" />
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

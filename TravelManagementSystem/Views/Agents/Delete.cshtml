@@ -1,0 +1,50 @@
+﻿@model TravelManagementSystem.Models.Agent
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <!-- Card Header -->
+    <div class="card shadow mb-2 col-lg-10 offset-1">
+        <div class="card-body text-center bg-danger">
+            <h4 class="text-light">Delete Agent</h4>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Section -->
+    <div class=" col-lg-10 offset-1">
+        
+        <div class="card shadow p-3 mt-2">
+            <h3 class="text-danger">Are you sure you want to delete this agent?</h3>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.WhatsApp)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.WhatsApp)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Phone)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Phone)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Email)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Email)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.OfficeAddress)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.OfficeAddress)</dd>
+            </dl>
+
+            <!-- Delete Confirmation Form -->
+            <form asp-action="Delete" class="mt-4">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex gap-3">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+
+      
+    </div>
+</div>

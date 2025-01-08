@@ -1,0 +1,101 @@
+﻿@model TravelManagementSystem.Models.SalesTable
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <div class="card shadow mb-4 col-lg-12">
+        <div class="card-body text-center bg-warning">
+            <h4 class="text-light">Edit Sales Record</h4>
+        </div>
+    </div>
+
+    <form class="border border-warning shadow col-lg-12" asp-controller="Sales" asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Country" class="control-label"></label>
+                <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="Company" class="control-label"></label>
+                <input asp-for="Company" class="form-control" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+            
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Trade" class="control-label"></label>
+                <select asp-for="Trade" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.Trade>()"></select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="SubTrade" class="control-label"></label>
+                <input asp-for="SubTrade" class="form-control" />
+                <span asp-validation-for="SubTrade" class="text-danger"></span>
+            </div>
+           
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Destination" class="control-label"></label>
+                <input asp-for="Destination" class="form-control" />
+                <span asp-validation-for="Destination" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="FlightOn" class="control-label"></label>
+                <input asp-for="FlightOn" type="date" class="form-control" />
+                <span asp-validation-for="FlightOn" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Credit" class="control-label"></label>
+                <input asp-for="Credit" type="number" class="form-control" step="0.01" />
+                <span asp-validation-for="Credit" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="Debit" class="control-label"></label>
+                <input asp-for="Debit" type="number" class="form-control" step="0.01" />
+                <span asp-validation-for="Debit" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Balance" class="control-label"></label>
+                <input asp-for="Balance" type="number" class="form-control disabled" step="0.01" />
+                <span asp-validation-for="Balance" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" readonly />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" type="datetime-local" class="form-control" readonly />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <input type="submit" value="Update Record" class="btn btn-warning" />
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

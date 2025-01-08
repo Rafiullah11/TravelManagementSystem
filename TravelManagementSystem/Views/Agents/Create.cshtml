@@ -1,0 +1,62 @@
+﻿@model TravelManagementSystem.Models.Agent
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <div class="card shadow mb-4 col-lg-12">
+        <div class="card-body text-center bg-warning">
+            <h4 class="text-light ">Add Agent</h4>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+            </div>
+        </div>
+    </div>
+
+    <form class="border border-warning shadow col-lg-12" enctype="multipart/form-data" asp-action="Create" method="post">
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="WhatsApp" class="control-label"></label>
+                <input asp-for="WhatsApp" class="form-control" />
+                <span asp-validation-for="WhatsApp" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="OfficeAddress" class="control-label"></label>
+                <input asp-for="OfficeAddress" class="form-control" />
+                <span asp-validation-for="OfficeAddress" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <input type="submit" value="Create" class="btn btn-warning" />
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

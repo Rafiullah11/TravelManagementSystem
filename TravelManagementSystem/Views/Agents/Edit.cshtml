@@ -1,0 +1,63 @@
+﻿@model TravelManagementSystem.Models.Agent
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <div class="card shadow mb-4 col-lg-12">
+        <div class="card-body text-center bg-warning">
+            <h4 class="text-light">Edit Agent</h4>
+        </div>
+    </div>
+
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row">
+            <div class="form-group col-lg-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="WhatsApp" class="control-label"></label>
+                <input asp-for="WhatsApp" class="form-control" />
+                <span asp-validation-for="WhatsApp" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="form-group col-lg-12">
+                <label asp-for="OfficeAddress" class="control-label"></label>
+                <textarea asp-for="OfficeAddress" class="form-control"></textarea>
+                <span asp-validation-for="OfficeAddress" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group mt-3 ">
+            <input type="submit" value="Update Record" class="btn btn-warning" />
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

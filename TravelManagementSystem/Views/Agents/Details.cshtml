@@ -1,0 +1,56 @@
+﻿@model TravelManagementSystem.Models.Agent
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <!-- Card Header -->
+    <div class="card shadow mb-2 col-lg-10 offset-1">
+        <div class="card-body text-center bg-secondary">
+            <h4 class="text-light">Agent Details</h4>
+        </div>
+    </div>
+
+    <!-- Customer Details Section -->
+    <div class="col-lg-10 offset-1">
+        <div class="card shadow p-3 mt-2">
+            <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WhatsApp)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WhatsApp)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OfficeAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OfficeAddress)
+        </dd>
+    </dl>
+            <!-- Action Buttons Section -->
+            <div class="text-center d-flex gap-3 mt-3">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+</div>

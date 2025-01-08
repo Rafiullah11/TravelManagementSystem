@@ -1,0 +1,81 @@
+﻿@model TravelManagementSystem.ViewModel.CustomerEditViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    var documentPath = Url.Content("~/documents/" + (Model.ExistingScanDocumentPath ?? "placeholder.pdf"));
+    var ExistdocumentPath = "~/documents/" + (Model.ExistingScanDocumentPath ?? "placeholder.pdf");
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <div class="card shadow mb-4 col-lg-12">
+        <div class="card-body text-center bg-warning">
+            <h4 class="text-light">Edit Customer</h4>
+        </div>
+    </div>
+
+    <form class="border border-warning shadow col-lg-12" enctype="multipart/form-data" asp-controller="Customers" asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ExistingScanDocumentPath" />
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="PassportNo" class="control-label"></label>
+                <input asp-for="PassportNo" class="form-control" />
+                <span asp-validation-for="PassportNo" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="Country" class="control-label"></label>
+                <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="ScanDocumentFile" class="control-label"></label>
+                <input asp-for="ScanDocumentFile" type="file" class="form-control custom-file-input" />
+                <span asp-validation-for="ScanDocumentFile" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="row m-3">
+           
+            <div class="form-group col-lg-6">
+                <label asp-for="ExistingScanDocumentPath" class="control-label"></label>
+                    <!-- Hidden input to hold the existing document path -->
+                    <input type="hidden" id="ExistingScanDocumentPath" name="ExistingScanDocumentPath" value="@Model.ExistingScanDocumentPath" />
+
+                    <!-- Input field to display the existing document path -->
+                    <input type="text" class="form-control mt-2" id="DisplayExistingScanDocumentPath" value="@Model.ExistingScanDocumentPath" readonly />
+            </div>
+        </div>
+      
+
+
+        <div class="form-group m-4 ">
+            <input type="submit" value="Update Record" class="btn btn-warning" />
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

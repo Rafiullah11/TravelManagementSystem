@@ -1,0 +1,95 @@
+﻿
+ <!-- Main Content -->
+<div class="container-fluid p-3 mt-lg-3 content" id="mainContent">
+        <div class="container container-fluid">
+            <div class="row">
+            <!-- Card for Total Customers -->
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Total Customers</h5>
+                        <p class="card-text display-6 text-center" id="totalCustomers">
+                            @ViewBag.CustomerCount  <!-- Display customer count here -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body">
+                        <h5 class="card-title text-center">Active Agents</h5>
+                        <p class="card-text display-6 text-center">@ViewBag.AgentCount</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-warning mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Total Sales</h5>
+                        <p class="card-text display-6 text-center">@ViewBag.TotalSaleCount</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h3 class="mb-4">Recent Activities</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Activity</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Customer Registration</td>
+                                <td>02-01-2025</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Report Submission</td>
+                                <td>01-01-2025</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Agent Assignment</td>
+                                <td>30-12-2024</td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar toggle
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebarMenu');
+            const toggleButton = document.getElementById('sidebarToggle');
+            const closeButton = document.getElementById('sidebarClose');
+            const content = document.getElementById('mainContent');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('show');
+                content.classList.toggle('shifted');
+            }
+
+            if (toggleButton) {
+                toggleButton.addEventListener('click', toggleSidebar);
+            }
+
+            if (closeButton) {
+                closeButton.addEventListener('click', toggleSidebar);
+            }
+        });
+    </script>

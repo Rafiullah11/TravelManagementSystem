@@ -1,0 +1,126 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/*Side BAr Style*/
+/* Sidebar styling */
+.sidebar {
+    height: 100vh;
+    background-color: #343a40;
+    color: #fff;
+    position: fixed;
+    top: 40px;
+    left: 0;
+    width: 200px;
+    padding-top: 40px;
+    z-index: 1030;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .sidebar a {
+        color: #ddd;
+        text-decoration: none;
+        display: block;
+        padding: 10px 20px;
+    }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+.content {
+    margin-left: 120px;
+    margin-right:110px;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .sidebar
+
+{
+    transform: translateX(-100%);
+}
+
+.sidebar.show {
+    transform: translateX(0);
+}
+
+.content {
+    margin-left: 0;
+}
+
+    .content.shifted {
+        margin-left: 250px;
+    }
+
+}
+
+/*.sidebar {
+    height: 100vh;
+    background-color: #343a40;
+    color: #fff;
+    position: fixed;
+    top: 40px;
+    left: 0;
+    width: 250px;
+    padding-top: 20px;*/ /* Height of header */
+    /*z-index: 1030;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .sidebar a {
+        color: #ddd;
+        text-decoration: none;
+        display: block;
+        padding: 10px 20px;
+    }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+.content {
+    margin-left: 250px;*/ /* Sidebar width */
+    /*transition: margin-left 0.3s ease-in-out;
+}*/
+
+/* Small screens adjustments */
+/*@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+    .content {
+        margin-left: 0;
+    }
+}*/
+.padding-right {
+    padding-right: 0 !important;
+    margin-right: 0;
+}
+.no-padding-right {
+    padding-right: 0 !important;
+}

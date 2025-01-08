@@ -1,0 +1,47 @@
+﻿@model TravelManagementSystem.ViewModel.CustomerDetailsViewModel
+
+@{
+    ViewData["Title"] = "Customer Details";
+    var documentPath = Url.Content("~/documents/" + (Model.ExistingScanDocumentPath ?? "placeholder.pdf"));
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <!-- Card Header -->
+    <div class="card shadow mb-2 col-lg-10 offset-1">
+        <div class="card-body text-center bg-warning">
+            <h4 class="text-light">Customer Details</h4>
+        </div>
+    </div>
+
+    <!-- Customer Details Section -->
+    <div class="col-lg-10 offset-1">
+        <div class="card shadow p-3 mt-2">
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Phone)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Phone)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PassportNo)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.PassportNo)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Address)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Address)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Country)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Country)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ExistingScanDocumentPath)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.ExistingScanDocumentPath)</dd>
+               
+            </dl>
+        </div>
+
+        <!-- Action Buttons Section -->
+        <div class="text-center d-flex gap-3 mt-3">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>

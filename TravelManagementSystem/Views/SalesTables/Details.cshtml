@@ -1,0 +1,60 @@
+﻿@model TravelManagementSystem.Models.SalesTable
+
+@{
+    ViewData["Title"] = "Sales Details";
+}
+
+<div class="container p-3 mt-lg-3 content">
+    <!-- Card Header -->
+    <div class="card shadow mb-2 col-lg-10 offset-1">
+        <div class="card-body text-center bg-warning">
+            <h4 class="text-light">Sales Details</h4>
+        </div>
+    </div>
+
+    <!-- Sales Details Section -->
+    <div class="col-lg-10 offset-1">
+        <div class="card shadow p-3 mt-2">
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Company)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Company)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Trade)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Trade)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.SubTrade)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.SubTrade)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FlightOn)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.FlightOn)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Destination)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Destination)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Country)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Country)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Credit)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Credit)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Debit)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Debit)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Balance)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Balance)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CreatedBy)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedBy)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedAt)</dd>
+            </dl>
+        </div>
+
+        <!-- Action Buttons Section -->
+        <div class="text-center d-flex gap-3 mt-3">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>

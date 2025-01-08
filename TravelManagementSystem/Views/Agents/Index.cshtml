@@ -1,0 +1,49 @@
+﻿@model IEnumerable<TravelManagementSystem.Models.Agent>
+
+<div class="container-fluid p-3 mt-lg-3 content" id="mainContent">
+   
+    <div class="row ">
+        <div class="col-lg-9">
+            <h3 class="text-primary">Agent List</h3>
+        </div>
+        <div class="col-3 text-end padding-right">
+            <a asp-action="Create" asp-controller="Agents" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> &nbsp; Add Agent
+            </a>
+        </div>
+        <hr />
+    </div>
+    <div class="row border border-info mt-3 p-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>WhatsApp</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Office Address</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var agent in Model)
+                {
+                    <tr>
+                        <td>@agent.Name</td>
+                        <td>
+                            <a href="https://wa.me/@agent.WhatsApp" target="_blank">@agent.WhatsApp</a>
+                        </td>
+                        <td>@agent.Phone</td>
+                        <td>@agent.Email</td>
+                        <td>@agent.OfficeAddress</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@agent.Id"><i class="fas fa-pen-to-square text-primary"></i></a> |
+                            <a asp-action="Details" asp-route-id="@agent.Id"><i class="fas fa-eye text-info"></i></a> |
+                            <a asp-action="Delete" asp-route-id="@agent.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

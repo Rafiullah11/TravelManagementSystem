@@ -29,9 +29,13 @@
                 @foreach (var agent in Model)
                 {
                     <tr>
-                        <td>@agent.Name</td>
+
+                        @* <td>@agent.Name</td> *@
                         <td>
-                            <a href="https://wa.me/@agent.WhatsApp" target="_blank">@agent.WhatsApp</a>
+                            <a asp-action="HeaderAndLine" asp-route-id="@agent.Id" style="text-decoration:none;">@agent.Name</a>
+                        </td>
+                        <td>
+                            <a href="https://wa.me/@agent.WhatsApp" target="_blank" style="text-decoration:none;">@agent.WhatsApp</a>
                         </td>
                         <td>@agent.Phone</td>
                         <td>@agent.Email</td>

@@ -1,39 +1,86 @@
-﻿<div class="container-fluid p-3 mt-lg-3 content" id="mainContent">
+﻿@model TravelManagementSystem.ViewModel.SalesHeaderViewModel
 
-    <div class="row ">
-        <div class="col-lg-9">
-            <h3 class="text-primary">Agent Name</h3>
+<div class="container-fluid p-3 mt-lg-3 content">
+    <!-- Header Section -->
+    <div class="row">
+        <div class="col-lg-6">
+            <h3 class="text-secondary">Agent Name: @Model.AgentName</h3>
         </div>
-        <div class="col-3 text-end padding-right">
-           
-                <h3 class="text-primary">Phone No</h3>
+        <div class="col-6 text-end">
+            <h5 class="text-secondary">Office Address: @Model.OfficeAddress</h5>
 
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col-lg-9">
-            <h3 class="text-primary ">Office Address</h3>
-        </div>
-        <div class="col-3 text-end padding-right">
-                @* <h3 class="text-primary">Agent Name</h3> *@
+
+    <div class="row mt-3">
+        <div class="col-lg-6">
+            <h5 class="text-secondary">Agent ID: @Model.Id</h5>
 
         </div>
-        <hr />
+        <div class="col-6 text-end">
+            <h5 class="text-secondary">Phone No: @Model.PhoneNo</h5>
+
+        </div>
     </div>
+    <hr />
 
-
+    <!-- Line Details Section -->
     <div class="row">
         <div class="col-lg-9">
-            <h3 class="text-primary">Line Details</h3>
+            <h3 class="text-primary">Sales Lines</h3>
         </div>
-        <div class="col-3 text-end padding-right">
-            <a asp-action="Create" asp-controller="SalesTables">
-                <i class="bi bi-plus-circle"></i> &nbsp; Add Line
+        <div class="col-3 text-end">
+            <a asp-action="CreateLine" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add Line
             </a>
         </div>
-        <div class="row border border-info">
+    </div>
 
-            <p>Welcome to line section</p>
-        </div>
+    <div class="row border border-info mt-3 p-2">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Customer</th>
+                    <th>Trade</th>
+                    <th>Flight On</th>
+                    <th>Destination</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                    <th>Balance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.SalesLines != null && Model.SalesLines.Any())
+                {
+                    int index = 1;
+                    foreach (var line in Model.SalesLines)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>@line.Customer?.Name</td>
+                            <td>@line.Trade</td>
+                            <td>@line.FlightOn.ToShortDateString()</td>
+                            <td>@line.Destination</td>
+                            <td>@line.Credit</td>
+                            <td>@line.Debit</td>
+                            <td>@line.Balance</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@line.Id" class="btn btn-warning btn-sm">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@line.Id" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">No Sales Records Found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

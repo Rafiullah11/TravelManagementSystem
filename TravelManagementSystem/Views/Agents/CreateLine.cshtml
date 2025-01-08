@@ -1,0 +1,91 @@
+﻿@model TravelManagementSystem.ViewModel.CreateLineViewModel
+
+<div class="container-fluid p-3 mt-lg-3 content" id="mainContent">
+
+    <form asp-action="CreateLine" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="AgentId" />
+
+        <div class="row mt-2">
+            <div class="col-lg-6">
+                <label asp-for="AgentName" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="AgentName" readonly />
+            </div>
+
+            <div class="col-lg-6">
+                <label asp-for="PhoneNo" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="PhoneNo" readonly />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-6">
+                <label asp-for="OfficeAddress" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="OfficeAddress" readonly />
+            </div>
+            <div class="col-lg-6">
+                <label asp-for="CustomerId" class="form-label">Customer</label>
+                <select asp-for="CustomerId" class="form-select" asp-items="Model.Customers">
+                    <option value="">Select Customer</option>
+                </select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-6">
+                <label asp-for="Country" class="form-label"></label>
+                <select class="form-select" asp-for="Country">
+                    <option value="">Select Country</option>
+                    @foreach (var country in Enum.GetValues(typeof(CountryEnum)))
+                    {
+                        <option value="@country">@country</option>
+                    }
+                </select>
+            </div>
+            <div class="col-lg-6">
+                <label asp-for="Company" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Company" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-6">
+                <label asp-for="Trade" class="form-label"></label>
+                <select class="form-select" asp-for="Trade">
+                    <option value="">Select Trade</option>
+                    @foreach (var trade in Enum.GetValues(typeof(Trade)))
+                    {
+                        <option value="@trade">@trade</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-lg-6">
+                <label asp-for="SubTrade" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="SubTrade" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-6">
+                <label asp-for="FlightOn" class="form-label"></label>
+                <input type="date" class="form-control" asp-for="FlightOn" />
+            </div>
+
+            <div class="col-lg-6">
+                <label asp-for="Destination" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="Destination" />
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-6">
+                <label asp-for="Credit" class="form-label"></label>
+                <input type="number" class="form-control" asp-for="Credit" />
+            </div>
+
+            <div class="col-lg-6">
+                <label asp-for="Debit" class="form-label"></label>
+                <input type="number" class="form-control" asp-for="Debit" />
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
+    </form>
+</div>

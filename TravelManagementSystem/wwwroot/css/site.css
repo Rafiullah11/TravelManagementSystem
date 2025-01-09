@@ -124,3 +124,6 @@ body {
 .no-padding-right {
     padding-right: 0 !important;
 }
+.searchTextSize {
+    width: 50% !important;
+}

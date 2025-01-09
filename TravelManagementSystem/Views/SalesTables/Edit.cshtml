@@ -13,11 +13,29 @@
 
     <form class="border border-warning shadow col-lg-12" asp-controller="Sales" asp-action="Edit" method="post">
         <input type="hidden" asp-for="Id" />
+        <input type="hidden" name="CustomerId" value="@ViewBag.CustomerId" />
+        <input type="hidden" name="AgentId" value="@ViewBag.AgentId" />
+
+        <div class="row m-3">
+            <div class="form-group col-lg-6">
+                <label asp-for="AgentId" class="control-label">Agents Name</label>
+                <select asp-for="AgentId" class="form-select" asp-items="ViewBag.AgentId"></select>
+                <span asp-validation-for="AgentId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-lg-6">
+                <label asp-for="CustomerId" class="control-label">Customer Name</label>
+                <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerId"></select>
+
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+
+        </div>
 
         <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="Country" class="control-label"></label>
-                <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
+                <select asp-for="Country" class="form-select" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
             <div class="form-group col-lg-6">
@@ -31,7 +49,7 @@
         <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="Trade" class="control-label"></label>
-                <select asp-for="Trade" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.Trade>()"></select>
+                <select asp-for="Trade" class="form-select" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.Trade>()"></select>
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
             <div class="form-group col-lg-6">

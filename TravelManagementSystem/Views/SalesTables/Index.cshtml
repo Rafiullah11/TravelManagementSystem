@@ -1,14 +1,23 @@
-﻿@model IEnumerable<TravelManagementSystem.Models.SalesTable>
+﻿@using TravelManagementSystem.Helpers 
+@model PaginatedList<TravelManagementSystem.Models.SalesTable>
 
 <div class="container-fluid p-3 mt-lg-3 content" id="mainContent">
     <div class="row">
-        <div class="col-9">
+        <div class="col-10">
             <h3 class="text-primary">Sales List</h3>
         </div>
-        <div class="col-3 text-end padding-right">
+        <div class="col-2 text-end padding-right">
             <a asp-action="Create" asp-controller="SalesTables" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> &nbsp; Create Sale
             </a>
+            <form asp-action="Index" method="get" class="mt-3 pb-1">
+                <div class="input-group">
+                    <input type="text" name="SearchString" class="form-control" placeholder="Search" aria-label="Search" />
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
         <hr />
     </div>
@@ -55,4 +64,40 @@
             </tbody>
         </table>
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center mt-2">
+            <!-- Previous Button -->
+            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                    Previous
+                </a>
+            </li>
+
+            <!-- Page Numbers -->
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-pageNumber="@i"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <!-- Next Button -->
+            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>

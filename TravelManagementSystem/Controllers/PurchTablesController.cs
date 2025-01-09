@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TravelManagementSystem.Data;
+using TravelManagementSystem.Helpers;
 using TravelManagementSystem.Models;
 
 namespace TravelManagementSystem.Controllers
@@ -16,13 +17,47 @@ namespace TravelManagementSystem.Controllers
         }
 
         // GET: PurchTables
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var purchTables = await _context.PurchTables
+        //        .Include(s => s.Agent)
+        //        .Include(s => s.Customer)
+        //        .ToListAsync();
+        //    return View(purchTables);
+        //}
+        // GET: PurchTables
+        public async Task<IActionResult> Index(int? pageNumber, string currentFilter, string searchString)
         {
-            var purchTables = await _context.PurchTables
+            // If a new search string is provided, reset to the first page
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            // Pass the current filter to the view
+            ViewData["CurrentFilter"] = searchString;
+
+            // Build the query for PurchTables
+            var purchTables = _context.PurchTables
                 .Include(s => s.Agent)
                 .Include(s => s.Customer)
-                .ToListAsync();
-            return View(purchTables);
+                .AsQueryable();
+
+            // Apply filtering if a search string is provided
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                purchTables = purchTables.Where(s => s.Customer.Name.Contains(searchString) || s.Agent.Name.Contains(searchString));
+            }
+
+            // Define the page size
+            int pageSize = 5;
+
+            // Return the paginated list
+            return View(await PaginatedList<PurchTable>.CreateAsync(purchTables.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: PurchTables/Details/5

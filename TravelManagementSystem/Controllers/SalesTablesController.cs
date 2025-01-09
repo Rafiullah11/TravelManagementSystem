@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TravelManagementSystem.Data;
+using TravelManagementSystem.Helpers;
 using TravelManagementSystem.Models;
 
 namespace TravelManagementSystem.Controllers
@@ -15,16 +16,47 @@ namespace TravelManagementSystem.Controllers
             _context = context;
         }
 
-        // GET: SalesTables
-        public async Task<IActionResult> Index()
+        //// GET: SalesTables
+        //public async Task<IActionResult> Index()
+        //{
+        //    var salesTables = await _context.SalesTables
+        //        .Include(s => s.Agent)
+        //        .Include(s => s.Customer)
+        //        .ToListAsync();
+        //    return View(salesTables);
+        //}
+        public async Task<IActionResult> Index(int? pageNumber, string currentFilter, string searchString)
         {
-            var salesTables = await _context.SalesTables
-                .Include(s => s.Agent)
-                .Include(s => s.Customer)
-                .ToListAsync();
-            return View(salesTables);
-        }
+            // If a new search string is provided, reset to the first page
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
+            // Pass the current filter to the view
+            ViewData["CurrentFilter"] = searchString;
+
+            var salesTables =  _context.SalesTables
+               .Include(s => s.Agent)
+               .Include(s => s.Customer)
+               .AsQueryable();
+
+            // Apply filtering if a search string is provided
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                salesTables = salesTables.Where(s => s.Agent.Name.Contains(searchString) || s.Customer.Name.Contains(searchString));
+            }
+
+            // Define the page size
+            int pageSize = 5;
+
+            // Return the paginated list
+            return View(await PaginatedList<SalesTable>.CreateAsync(salesTables.AsNoTracking(), pageNumber ?? 1, pageSize));
+        }
         // GET: SalesTables/Details/5
         public async Task<IActionResult> Details(int? id)
         {

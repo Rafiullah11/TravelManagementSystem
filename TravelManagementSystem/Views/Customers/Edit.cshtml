@@ -44,10 +44,20 @@
         </div>
 
         <div class="row m-3">
-            <div class="form-group col-lg-6">
+           @*  <div class="form-group col-lg-6">
                 <label asp-for="Country" class="control-label"></label>
                 <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
                 <span asp-validation-for="Country" class="text-danger"></span>
+            </div> *@
+            <div class="form-group col-lg-6">
+                <label asp-for="Country" class="form-label"></label>
+                <select class="form-select" asp-for="Country">
+                    <option value="">Select Country</option>
+                    @foreach (var country in Enum.GetValues(typeof(CountryEnum)))
+                    {
+                        <option value="@country">@country</option>
+                    }
+                </select>
             </div>
             <div class="form-group col-lg-6">
                 <label asp-for="ScanDocumentFile" class="control-label"></label>

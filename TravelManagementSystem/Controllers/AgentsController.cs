@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TravelManagementSystem.Data;
 using TravelManagementSystem.Models;
 using TravelManagementSystem.ViewModel;
+using TravelManagementSystem.Helpers;
 
 namespace TravelManagementSystem.Controllers
 {
@@ -19,9 +20,6 @@ namespace TravelManagementSystem.Controllers
         {
             _context = context;
         }
-
-
-
 
         public async Task<IActionResult> HeaderAndLine(int Id)
         {
@@ -125,10 +123,37 @@ namespace TravelManagementSystem.Controllers
 
 
         // GET: Agents
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber, string currentFilter, string searchString)
         {
-            return View(await _context.Agents.ToListAsync());
+            // If a new search string is provided, reset to the first page
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            // Pass the current filter to the view
+            ViewData["CurrentFilter"] = searchString;
+
+            // Build the query
+            var agents = from a in _context.Agents
+                         select a;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                agents = agents.Where(s => s.Name.Contains(searchString));
+            }
+
+            // Define the page size
+            int pageSize = 3;
+
+            // Return the paginated list
+            return View(await PaginatedList<Agent>.CreateAsync(agents.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
 
         // GET: Agents/Details/5
         public async Task<IActionResult> Details(int? id)

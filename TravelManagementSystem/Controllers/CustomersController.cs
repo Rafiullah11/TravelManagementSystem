@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TravelManagementSystem.Data;
+using TravelManagementSystem.Helpers;
 using TravelManagementSystem.Models;
 using TravelManagementSystem.ViewModel;
 
@@ -125,12 +126,44 @@ namespace TravelManagementSystem.Controllers
         }
 
 
-        // GET: Customers
-        public async Task<IActionResult> Index()
-        {
-            var customers = await _context.Customers.ToListAsync();
+        //// GET: Customers
+        //public async Task<IActionResult> Index()
+        //{
+        //    var customers = await _context.Customers.ToListAsync();
            
-            return View(customers);
+        //    return View(customers);
+        //}
+
+        // GET: 
+        public async Task<IActionResult> Index(int? pageNumber, string currentFilter, string searchString)
+        {
+            // If a new search string is provided, reset to the first page
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            // Pass the current filter to the view
+            ViewData["CurrentFilter"] = searchString;
+
+            // Build the query
+            var customer = from a in _context.Customers
+                         select a;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                customer = customer.Where(s => s.Name.Contains(searchString));
+            }
+
+            // Define the page size
+            int pageSize = 3;
+
+            // Return the paginated list
+            return View(await PaginatedList<Customer>.CreateAsync(customer.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Customers/Create

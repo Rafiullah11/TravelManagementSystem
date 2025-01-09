@@ -12,8 +12,8 @@ using TravelManagementSystem.Data;
 namespace TravelManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250108133343_addedFisrtMigration")]
-    partial class addedFisrtMigration
+    [Migration("20250109121918_addMingration")]
+    partial class addMingration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,6 +91,62 @@ namespace TravelManagementSystem.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("TravelManagementSystem.Models.PurchTable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AgentId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Company")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Country")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Credit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Debit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Destination")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FlightOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SubTrade")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Trade")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgentId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("PurchTables");
+                });
+
             modelBuilder.Entity("TravelManagementSystem.Models.SalesTable", b =>
                 {
                     b.Property<int>("Id")
@@ -111,11 +167,11 @@ namespace TravelManagementSystem.Migrations
                     b.Property<int>("Country")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Credit")
                         .HasColumnType("decimal(18,2)");
@@ -145,6 +201,25 @@ namespace TravelManagementSystem.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("SalesTables");
+                });
+
+            modelBuilder.Entity("TravelManagementSystem.Models.PurchTable", b =>
+                {
+                    b.HasOne("TravelManagementSystem.Models.Agent", "Agent")
+                        .WithMany()
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TravelManagementSystem.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Agent");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("TravelManagementSystem.Models.SalesTable", b =>

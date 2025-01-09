@@ -2,7 +2,7 @@
 
 namespace TravelManagementSystem.ViewModel
 {
-    public class SalesLineViewModel
+    public class PurchLineViewModel
     {
         public int Id { get; set; }
 

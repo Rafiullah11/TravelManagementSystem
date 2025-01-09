@@ -61,11 +61,43 @@ namespace TravelManagementSystem.Data
                         FlightOn = DateTime.Parse("2024-01-10"),
                         Destination = "ISB-ABD",
                         Country = CountryEnum.UAE,
+                        Credit = 500000,
+                        Debit = 550000,
+                        Balance = 50000,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new SalesTable
+                    {
+                        AgentId = 1, // Link to Agent
+                        CustomerId = 4, // Link to Customer
+                        Company = "Qatar Security",
+                        Trade = Trade.Labour,
+                        SubTrade = "Security Guard",
+                        FlightOn = DateTime.Parse("2024-01-10"),
+                        Destination = "ISB-DIA",
+                        Country = CountryEnum.Qatar,
+                        Credit = 600000,
+                        Debit = 500000,
+                        Balance = 100000,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new SalesTable
+                    {
+                        AgentId = 1, // Link to Agent
+                        CustomerId = 5, // Link to Customer
+                        Company = "TransGuard",
+                        Trade = Trade.Labour,
+                        SubTrade = "Warehouse Worker",
+                        FlightOn = DateTime.Parse("2024-01-10"),
+                        Destination = "ISB-ABD",
+                        Country = CountryEnum.UAE,
                         Credit = 1000,
                         Debit = 500,
                         Balance = 500,
                         CreatedBy = 1,
-                        CreatedAt = DateTime.Now
+                        CreatedOn = DateTime.Now
                     },
                     new SalesTable
                     {
@@ -81,7 +113,23 @@ namespace TravelManagementSystem.Data
                         Debit = 1500,
                         Balance = 500,
                         CreatedBy = 1,
-                        CreatedAt = DateTime.Now
+                        CreatedOn = DateTime.Now
+                    },
+                    new SalesTable
+                    {
+                        AgentId = 2, // Link to Agent
+                        CustomerId = 3, // Link to Customer
+                        Company = "IRC",
+                        Trade = Trade.Driver,
+                        SubTrade = "BUS",
+                        FlightOn = DateTime.Parse("2024-02-15"),
+                        Destination = "PWD-JED",
+                        Country = CountryEnum.KSA,
+                        Credit = 4000,
+                        Debit = 2000,
+                        Balance = 2000,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
                     },
                     new SalesTable
                     {
@@ -97,7 +145,7 @@ namespace TravelManagementSystem.Data
                         Debit = 1000,
                         Balance = 500,
                         CreatedBy = 1,
-                        CreatedAt = DateTime.Now
+                        CreatedOn = DateTime.Now
                     },
                     new SalesTable
                     {
@@ -113,7 +161,7 @@ namespace TravelManagementSystem.Data
                         Debit = 2500,
                         Balance = 500,
                         CreatedBy = 1,
-                        CreatedAt = DateTime.Now
+                        CreatedOn = DateTime.Now
                     },
                     new SalesTable
                     {
@@ -129,13 +177,154 @@ namespace TravelManagementSystem.Data
                         Debit = 2000,
                         Balance = 500,
                         CreatedBy = 1,
-                        CreatedAt = DateTime.Now
+                        CreatedOn = DateTime.Now
                     }
                 };
 
                 foreach (var sales in salesTables)
                 {
                     context.SalesTables.Add(sales);
+                }
+                context.SaveChanges();
+            }
+            // Seed PurchTable
+            if (!context.PurchTables.Any())
+            {
+                var purchTables = new PurchTable[]
+                {
+                    new PurchTable
+                    {
+                        AgentId = 1, // Link to Agent
+                        CustomerId = 1, // Link to Customer
+                        Company = "TransGuard",
+                        Trade = Trade.Labour,
+                        SubTrade = "Warehouse Worker",
+                        FlightOn = DateTime.Parse("2024-01-10"),
+                        Destination = "ISB-ABD",
+                        Country = CountryEnum.UAE,
+                        Credit = 500000,
+                        Debit = 550000,
+                        Balance = 50000,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new PurchTable
+                    {
+                        AgentId = 2, // Link to Agent
+                        CustomerId = 1, // Link to Customer
+                        Company = "Qatar Security",
+                        Trade = Trade.Labour,
+                        SubTrade = "Security Guard",
+                        FlightOn = DateTime.Parse("2024-01-10"),
+                        Destination = "ISB-DIA",
+                        Country = CountryEnum.Qatar,
+                        Credit = 600000,
+                        Debit = 500000,
+                        Balance = 100000,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new PurchTable
+                    {
+                        AgentId = 3, // Link to Agent
+                        CustomerId = 1, // Link to Customer
+                        Company = "TransGuard",
+                        Trade = Trade.Labour,
+                        SubTrade = "Warehouse Worker",
+                        FlightOn = DateTime.Parse("2024-01-10"),
+                        Destination = "ISB-ABD",
+                        Country = CountryEnum.UAE,
+                        Credit = 1000,
+                        Debit = 500,
+                        Balance = 500,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new PurchTable
+                    {
+                        AgentId = 2, // Link to Agent
+                        CustomerId = 2, // Link to Customer
+                        Company = "IRC",
+                        Trade = Trade.Driver,
+                        SubTrade = "BUS",
+                        FlightOn = DateTime.Parse("2024-02-15"),
+                        Destination = "PWD-JED",
+                        Country = CountryEnum.KSA,
+                        Credit = 2000,
+                        Debit = 1500,
+                        Balance = 500,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new PurchTable
+                    {
+                        AgentId = 3, // Link to Agent
+                        CustomerId = 2, // Link to Customer
+                        Company = "IRC",
+                        Trade = Trade.Driver,
+                        SubTrade = "BUS",
+                        FlightOn = DateTime.Parse("2024-02-15"),
+                        Destination = "PWD-JED",
+                        Country = CountryEnum.KSA,
+                        Credit = 4000,
+                        Debit = 2000,
+                        Balance = 2000,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new PurchTable
+                    {
+                        AgentId = 3, // Link to Agent
+                        CustomerId = 3, // Link to Customer
+                        Company = "Qatar Security",
+                        Trade = Trade.Labour,
+                        SubTrade = "Security",
+                        FlightOn = DateTime.Parse("2024-03-20"),
+                        Destination = "KHI-DIA",
+                        Country = CountryEnum.Qatar,
+                        Credit = 1500,
+                        Debit = 1000,
+                        Balance = 500,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new PurchTable
+                    {
+                        AgentId = 4, // Link to Agent
+                        CustomerId = 3, // Link to Customer
+                        Company = "Company D",
+                        Trade = Trade.Driver,
+                        SubTrade = "Heavy Driver",
+                        FlightOn = DateTime.Parse("2024-04-25"),
+                        Destination = "LRH-DXB",
+                        Country = CountryEnum.UAE,
+                        Credit = 3000,
+                        Debit = 2500,
+                        Balance = 500,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    },
+                    new PurchTable
+                    {
+                        AgentId = 5, // Link to Agent
+                        CustomerId = 5, // Link to Customer
+                        Company = "Al-maria",
+                        Trade = Trade.Labour,
+                        SubTrade = "Food Packing",
+                        FlightOn = DateTime.Parse("2024-05-30"),
+                        Destination = "PWD-RUH",
+                        Country = CountryEnum.KSA,
+                        Credit = 2500,
+                        Debit = 2000,
+                        Balance = 500,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now
+                    }
+                };
+
+                foreach (var purchase in purchTables)
+                {
+                    context.PurchTables.Add(purchase);
                 }
                 context.SaveChanges();
             }

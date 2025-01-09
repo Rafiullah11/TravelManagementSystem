@@ -1,20 +1,20 @@
-﻿@model TravelManagementSystem.ViewModel.PurchHeaderViewModel
+﻿@model TravelManagementSystem.ViewModel.SalesHeaderViewModel
 
 <div class="container-fluid p-3 mt-lg-3 content">
     <!-- Header Section -->
     <div class="row">
         <div class="col-lg-6">
-            <h3 class="text-secondary">Agent Name: @Model.AgentName</h3>
+            <h3 class="text-secondary">Customer Name: @Model.CustName</h3>
         </div>
         <div class="col-6 text-end">
-            <h5 class="text-secondary">Office Address: @Model.OfficeAddress</h5>
+            <h5 class="text-secondary">Address: @Model.Address</h5>
 
         </div>
     </div>
 
     <div class="row mt-3">
         <div class="col-lg-6">
-            <h5 class="text-secondary">Agent ID: @Model.Id</h5>
+            <h5 class="text-secondary">Cust Account: @Model.Id</h5>
 
         </div>
         <div class="col-6 text-end">
@@ -27,7 +27,7 @@
     <!-- Line Details Section -->
     <div class="row">
         <div class="col-lg-9">
-            <h3 class="text-primary">Purch Lines</h3>
+            <h3 class="text-primary">Agents List</h3>
         </div>
         <div class="col-3 text-end">
             <a asp-action="CreateLine" asp-route-id="@Model.Id" class="btn btn-primary">
@@ -41,7 +41,7 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Customer</th>
+                    <th>Agents</th>
                     <th>Trade</th>
                     <th>Flight On</th>
                     <th>Destination</th>
@@ -52,14 +52,14 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model.PurchaseTables != null && Model.PurchaseTables.Any())
+                @if (Model.SalesTable != null && Model.SalesTable.Any())
                 {
                     int index = 1;
-                    foreach (var line in Model.PurchaseTables)
+                    foreach (var line in Model.SalesTable)
                     {
                         <tr>
                             <td>@index</td>
-                            <td>@line.Customer?.Name</td>
+                            <td>@line.Agent?.Name</td>
                             <td>@line.Trade</td>
                             <td>@line.FlightOn.ToShortDateString()</td>
                             <td>@line.Destination</td>

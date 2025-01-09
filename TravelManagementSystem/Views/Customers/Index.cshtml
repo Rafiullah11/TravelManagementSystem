@@ -31,7 +31,10 @@
                     var fileExtension = System.IO.Path.GetExtension(customer.ScanDocumentPath)?.ToLower();
 
                     <tr>
-                        <td>@customer.Name</td>
+
+                        <td>
+                            <a asp-action="HeaderAndLine" asp-route-id="@customer.Id" style="text-decoration:none;">@customer.Name</a>
+                        </td>
                         @* <td>@customer.Phone</td> *@
                         <td><a href="https://wa.me/@customer.Phone" target="_blank">@customer.Phone</a></td>
                         <td>@customer.PassportNo</td>

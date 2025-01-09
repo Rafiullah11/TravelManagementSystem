@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TravelManagementSystem.Models.SalesTable>
+﻿@model IEnumerable<TravelManagementSystem.Models.PurchTable>
 
 <div class="container-fluid p-3 mt-lg-3 content" id="mainContent">
     <div class="row">
@@ -31,24 +31,24 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var sale in Model)
+                @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@sale.Agent?.Name</td>
-                        <td>@sale.Customer?.Name</td>
-                        <td>@sale.Company</td>
-                        <td>@sale.Trade</td>
-                        <td>@sale.SubTrade</td>
-                        <td>@sale.FlightOn.ToString("dd-MM-yyyy")</td>
-                        <td>@sale.Destination</td>
-                        <td>@sale.Country</td>
-                        <td>@sale.Credit.ToString("N2")</td>
-                        <td>@sale.Debit.ToString("N2")</td>
-                        <td>@sale.Balance?.ToString("N2")</td>
+                        <td>@item.Agent?.Name</td>
+                        <td>@item.Customer?.Name</td>
+                        <td>@item.Company</td>
+                        <td>@item.Trade</td>
+                        <td>@item.SubTrade</td>
+                        <td>@item.FlightOn.ToString("dd-MM-yyyy")</td>
+                        <td>@item.Destination</td>
+                        <td>@item.Country</td>
+                        <td>@item.Credit.ToString("N2")</td>
+                        <td>@item.Debit.ToString("N2")</td>
+                        <td>@item.Balance?.ToString("N2")</td>
                         <td class="text-center">
-                            <a asp-action="Edit" asp-route-id="@sale.Id"><i class="fas fa-pen-to-square text-primary"></i></a> |
-                            <a asp-action="Details" asp-route-id="@sale.Id"><i class="fas fa-eye text-success"></i></a> |
-                            <a asp-action="Delete" asp-route-id="@sale.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-pen-to-square text-primary"></i></a> |
+                            <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-eye text-success"></i></a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt text-danger"></i></a>
                         </td>
                     </tr>
                 }

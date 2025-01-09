@@ -36,19 +36,20 @@ namespace TravelManagementSystem.Controllers
             }
 
             // Fetch related sales lines for the agent
-            var salesLines = await _context.SalesTables
+            var purchLines = await _context.PurchTables
                 .Where(s => s.AgentId == Id)
                 .Include(s => s.Customer) // Include related Customer data if needed
                 .ToListAsync();
 
             // Map data to the SalesHeaderViewModel
-            var viewModel = new SalesHeaderViewModel
+            var viewModel = new PurchHeaderViewModel
             {
                 Id=agent.Id,
                 AgentName = agent.Name,
                 PhoneNo = agent.Phone,
                 OfficeAddress = agent.OfficeAddress,
-                SalesLines = salesLines
+                PurchaseTables = purchLines,
+                //SalesLines = salesLines
             };
 
             return View(viewModel);
@@ -75,7 +76,7 @@ namespace TravelManagementSystem.Controllers
                 .ToListAsync();
 
             // Create a ViewModel to pass to the view
-            var viewModel = new CreateLineViewModel
+            var viewModel = new PurchLineCreateViewModel
             {
                 AgentId = agent.Id,
                 AgentName = agent.Name,
@@ -90,7 +91,7 @@ namespace TravelManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateLine(CreateLineViewModel model)
+        public async Task<IActionResult> CreateLine(PurchLineCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +108,7 @@ namespace TravelManagementSystem.Controllers
                     Country = model.Country,
                     Credit = model.Credit,
                     Debit = model.Debit,
-                    CreatedAt = DateTime.Now
+                    CreatedOn = DateTime.Now
                 };
 
                 // Save to database

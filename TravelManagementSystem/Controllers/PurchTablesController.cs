@@ -6,43 +6,43 @@ using TravelManagementSystem.Models;
 
 namespace TravelManagementSystem.Controllers
 {
-    public class SalesTablesController : Controller
+    public class PurchTablesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public SalesTablesController(ApplicationDbContext context)
+        public PurchTablesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: SalesTables
+        // GET: PurchTables
         public async Task<IActionResult> Index()
         {
-            var salesTables = await _context.SalesTables
+            var purchTables = await _context.PurchTables
                 .Include(s => s.Agent)
                 .Include(s => s.Customer)
                 .ToListAsync();
-            return View(salesTables);
+            return View(purchTables);
         }
 
-        // GET: SalesTables/Details/5
+        // GET: PurchTables/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var salesTable = await _context.SalesTables
-                .Include(s => s.Agent)
+            var purchTables = await _context.PurchTables
+                 .Include(s => s.Agent)
                 .Include(s => s.Customer)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (salesTable == null)
+            if (purchTables == null)
                 return NotFound();
 
-            return View(salesTable);
+            return View(purchTables);
         }
 
-        // GET: SalesTables/Create
+        // GET: PurchTables/Create
         public IActionResult Create()
         {
             // Ensure _context.Agents and _context.Customers are not null
@@ -56,48 +56,48 @@ namespace TravelManagementSystem.Controllers
         }
 
 
-        // POST: SalesTables/Create
+        // POST: PurchTables/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Company,Trade,SubTrade,FlightOn,Destination,Country,Credit,Debit,AgentId,CustomerId,CreatedBy")] SalesTable salesTable)
+        public async Task<IActionResult> Create([Bind("Company,Trade,SubTrade,FlightOn,Destination,Country,Credit,Debit,AgentId,CustomerId,CreatedBy")] PurchTable PurchTable)
         {
             if (ModelState.IsValid)
             {
                 // Calculate balance
-                salesTable.Balance = salesTable.Credit - salesTable.Debit;
-                salesTable.CreatedOn = DateTime.Now;
+                PurchTable.Balance = PurchTable.Credit - PurchTable.Debit;
+                PurchTable.CreatedOn = DateTime.Now;
 
-                _context.Add(salesTable);
+                _context.Add(PurchTable);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", salesTable.AgentId);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", salesTable.CustomerId);
-            return View(salesTable);
+            ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", PurchTable.AgentId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", PurchTable.CustomerId);
+            return View(PurchTable);
         }
 
-        // GET: SalesTables/Edit/5
+        // GET: PurchTables/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var salesTable = await _context.SalesTables.FindAsync(id);
-            if (salesTable == null)
+            var purchTable = await _context.PurchTables.FindAsync(id);
+            if (purchTable == null)
                 return NotFound();
 
-            ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", salesTable.AgentId);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", salesTable.CustomerId);
-            return View(salesTable);
+            ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", purchTable.AgentId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", purchTable.CustomerId);
+            return View(purchTable);
         }
 
-        // POST: SalesTables/Edit/5
+        // POST: PurchTables/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Company,Trade,SubTrade,FlightOn,Destination,Country,Credit,Debit,Balance,AgentId,CustomerId,CreatedBy,CreatedAt")] SalesTable salesTable)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Company,Trade,SubTrade,FlightOn,Destination,Country,Credit,Debit,Balance,AgentId,CustomerId,CreatedBy,CreatedAt")] PurchTable purchTable)
         {
-            if (id != salesTable.Id)
+            if (id != purchTable.Id)
                 return NotFound();
 
             if (ModelState.IsValid)
@@ -105,56 +105,57 @@ namespace TravelManagementSystem.Controllers
                 try
                 {
                     // Recalculate balance on edit
-                    salesTable.Balance = salesTable.Credit - salesTable.Debit;
+                    purchTable.Balance = purchTable.Credit - purchTable.Debit;
 
-                    _context.Update(salesTable);
+                    _context.Update(purchTable);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SalesTableExists(salesTable.Id))
+                    if (!PurchTableeExists(purchTable.Id))
                         return NotFound();
                     throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", salesTable.AgentId);
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", salesTable.CustomerId);
-            return View(salesTable);
+            ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", purchTable.AgentId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", purchTable.CustomerId);
+            return View(purchTable);
         }
 
-        // GET: SalesTables/Delete/5
+        // GET: PurchTables/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var salesTable = await _context.SalesTables
+            var purchTable = await _context.PurchTables
                 .Include(s => s.Agent)
                 .Include(s => s.Customer)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (salesTable == null)
+            if (purchTable == null)
                 return NotFound();
 
-            return View(salesTable);
+            return View(purchTable);
         }
 
-        // POST: SalesTables/Delete/5
+        // POST: PurchTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var salesTable = await _context.SalesTables.FindAsync(id);
-            _context.SalesTables.Remove(salesTable);
+            var purchTable = await _context.PurchTables.FindAsync(id);
+            _context.PurchTables.Remove(purchTable);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SalesTableExists(int id)
+        private bool PurchTableeExists(int id)
         {
-            return _context.SalesTables.Any(e => e.Id == id);
+            return _context.PurchTables.Any(e => e.Id == id);
         }
     }
 }
+

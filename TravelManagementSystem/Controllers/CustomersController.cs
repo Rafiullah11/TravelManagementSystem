@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TravelManagementSystem.Data;
@@ -23,6 +24,106 @@ namespace TravelManagementSystem.Controllers
             _hostEnvironment = hostEnvironment;
             _logger = logger;
         }
+
+        public async Task<IActionResult> HeaderAndLine(int Id)
+        {
+            //int agentId = 1;
+            // Fetch the agent's header information
+            var cust = await _context.Customers
+                .FirstOrDefaultAsync(a => a.Id == Id);
+
+            if (cust == null)
+            {
+                return NotFound("Agent not found.");
+            }
+
+            // Fetch related sales lines for the Customer
+            var salesLines = await _context.SalesTables
+                .Where(s => s.CustomerId == Id)
+                .Include(s => s.Agent) // Include related Customer data if needed
+                .ToListAsync();
+
+            // Map data to the SalesHeaderViewModel
+            var viewModel = new SalesHeaderViewModel
+            {
+                Id = cust.Id,
+                CustName = cust.Name,
+                PhoneNo = cust.Phone,
+                Address = cust.Address,
+                SalesTable= salesLines
+            };
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> CreateLine(int id)
+        {
+            // Fetch the Cust's information
+            var cust = await _context.Customers
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (cust == null)
+            {
+                return NotFound("Agent not found.");
+            }
+
+            // Fetch customers for the dropdown
+            var agents = await _context.Agents
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+                .ToListAsync();
+
+            // Create a ViewModel to pass to the view
+            var viewModel = new SalesLineCreateViewModel
+            {
+                CustomerId = cust.Id,
+                CustName = cust.Name,
+                PhoneNo = cust.Phone,
+                OfficeAddress = cust.Address,
+                Agents = agents
+            };
+
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateLine(SalesLineCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Create a new SalesTable entity
+                var salesLine = new SalesTable
+                {
+                    CustomerId = model.CustomerId, // Set the selected CustomerId
+                    AgentId = (int)model.AgentId,
+                    Company = model.Company,
+                    Trade = model.Trade,
+                    SubTrade = model.SubTrade,
+                    FlightOn = model.FlightOn,
+                    Destination = model.Destination,
+                    Country = model.Country,
+                    Credit = model.Credit,
+                    Debit = model.Debit,
+                    CreatedOn = DateTime.Now
+                };
+
+                // Save to database
+                _context.SalesTables.Add(salesLine);
+                await _context.SaveChangesAsync();
+
+                // Redirect back to the header and line page
+                return RedirectToAction("HeaderAndLine", new { id = model.CustomerId });
+            }
+
+            // If validation fails, return the view with the model
+            return View(model);
+        }
+
 
         // GET: Customers
         public async Task<IActionResult> Index()

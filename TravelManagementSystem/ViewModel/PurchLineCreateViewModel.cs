@@ -3,7 +3,7 @@ using TravelManagementSystem.Models;
 
 namespace TravelManagementSystem.ViewModel
 {
-    public class CreateLineViewModel
+    public class PurchLineCreateViewModel
     {
         public int AgentId { get; set; }
         public string? AgentName { get; set; }
@@ -21,7 +21,7 @@ namespace TravelManagementSystem.ViewModel
         public decimal Debit { get; set; }
         public decimal? Balance { get; set; }
         public int? CreatedBy { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedOn { get; set; } = DateTime.Now;
         // New field for selecting a customer
         public int? CustomerId { get; set; }
         public List<SelectListItem> Customers { get; set; } = new List<SelectListItem>();

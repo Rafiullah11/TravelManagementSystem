@@ -13,6 +13,7 @@ namespace TravelManagementSystem.Data
         }
 
         public DbSet<SalesTable> SalesTables { get; set; }
+        public DbSet<PurchTable> PurchTables { get; set; }
         public DbSet<Agent> Agents { get; set; }
         public DbSet<Customer> Customers { get; set; }
 

@@ -1,0 +1,89 @@
+﻿@model TravelManagementSystem.Identity.LoginViewModel
+@{
+    Layout = "";
+    ViewData["Title"] = "Login";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-grid.css" rel="stylesheet" />
+    <script src="~/js/site.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+    <style></style>
+</head>
+<body>
+    <div class="container bg-white h-100">
+        <div class=" row  ">
+
+            <div class="col-md-4 offset-4 border mt-5 h-50 w-50  shadow" style="background-color:transparent; ">
+                <h1 class="text-center mt-2">Login</h1>
+                <hr class="mt-0 mb-0" />
+                <img src="~/img/sms.png" style="width:350px;height:150px" class="pl-0" />
+                <form asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group mt-1">
+                        <label asp-for="UserName" class="control-label"> User name</label>
+                        <input asp-for="UserName" class="form-control" placeholder="User name" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <div class="input-group">
+                            <input asp-for="Password" id="myInput" class="form-control" placeholder="Password" />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button"><i onclick="myFunction()" class="fas fa-eye"></i></button>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                        </label>
+                    </div>
+                    <div class="form-group mt-2">
+                        <input type="submit" value="Login" class="btn btn-primary" />
+                    </div>
+                    <div>
+                        <a asp-action="Register" asp-controller="Account">Not have an account! Sign up</a>
+                    </div>
+                    <div>
+                        <a asp-action="ForgotPassword" asp-controller="Account">NForgot Password</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        //$(document).ready(function () {
+
+        //    $('#showPass').on('click', function () {
+        //        var passInput = $("#passInput");
+        //        if (passInput.attr('type') === 'password') {
+        //            passInput.attr('type', 'text');
+        //        } else {
+        //            passInput.attr('type', 'password');
+        //        }
+        //    })
+        //})
+    </script>
+
+    <script src="~/js/site.js"></script>
+</body>
+</html>

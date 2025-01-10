@@ -1,0 +1,48 @@
+﻿@using TravelManagementSystem.Identity
+@inject SignInManager<ApplicationUser> signInManager
+
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+    
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+
+    <ul class="navbar-nav ml-auto ml-md-0 text-right ">
+        @if (signInManager.IsSignedIn(User))
+        {
+            <li class="nav-item text-white">
+                Welcome, @User.Identity.Name
+            </li>
+            <li class="nav-item">
+                <form method="post" asp-action="Logout" asp-controller="Account">
+                    <button type="submit" class="nav-link btn btn-link py-0">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </form>
+            </li>
+           
+        }
+        else
+        {
+            <li class="nav-item ml-auto mr-0 mr-md-2 my-2 my-md-0">
+                <a class="text-white" asp-action="Register" asp-controller="Account">Register</a>
+            </li>
+
+            <li class="nav-item ml-0 ">
+                <a class="text-white" asp-action="Login" asp-controller="Account">Login</a>
+                @*<span>
+                    <i class="text-white fa fa-sign-in" aria-hidden="true"></i>
+                </span>*@
+            </li>
+        }
+    </ul>
+ 
+</nav>

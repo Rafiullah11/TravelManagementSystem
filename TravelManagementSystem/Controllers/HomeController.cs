@@ -19,18 +19,50 @@ namespace TravelManagementSystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var customerCount = await _context.Customers.CountAsync(); // Get customer count
-            ViewBag.CustomerCount = customerCount;                    // Pass count to the view
+            // Customer Count
+            var customerCount = await _context.Customers.CountAsync();
+            ViewBag.CustomerCount = customerCount;
 
+            // Agent Count
             var agentCount = await _context.Agents.CountAsync();
             ViewBag.AgentCount = agentCount;
 
+            // Total Sale Count
             var totalSaleCount = await _context.SalesTables.CountAsync();
             ViewBag.TotalSaleCount = totalSaleCount;
+
+            // Monthly Sales Data
+            var salesData = await _context.SalesTables
+            .Where(s => s.CreatedOn.HasValue) // Filter out null dates
+            .GroupBy(s => s.CreatedOn.Value.Month) // Group by the Month number
+            .Select(g => new
+            {
+                Month = g.Key, // This should be an integer representing the month
+                TotalSales = g.Count() // Or sum if required
+            })
+            .ToListAsync();
+
+            // Convert the data into a dictionary with month names
+            var salesDictionary = new Dictionary<string, int>();
+            foreach (var item in salesData)
+            {
+                string monthName = new DateTime(1, item.Month, 1).ToString("MMMM"); // Convert month number to name
+                salesDictionary[monthName] = item.TotalSales;
+            }
+
+            ViewBag.SalesLabels = salesDictionary.Keys.ToArray();  // Pass month names to the view
+            ViewBag.SalesValues = salesDictionary.Values.ToArray(); // Pass sales data to the view
+
             return View();
         }
 
+
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        
+        public IActionResult DashboardSalesChart()
         {
             return View();
         }

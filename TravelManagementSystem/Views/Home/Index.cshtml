@@ -65,64 +65,61 @@
         const closeButton = document.getElementById('sidebarClose');
         const content = document.getElementById('mainContent');
 
-        function toggleSidebar() {
-            sidebar.classList.toggle('show');
-            content.classList.toggle('shifted');
-        }
+        const toggleSidebar = () => {
+            sidebar?.classList.toggle('show');
+            content?.classList.toggle('shifted');
+        };
 
-        if (toggleButton) {
-            toggleButton.addEventListener('click', toggleSidebar);
-        }
+        // Attach event listeners for sidebar toggle
+        toggleButton?.addEventListener('click', toggleSidebar);
+        closeButton?.addEventListener('click', toggleSidebar);
 
-        if (closeButton) {
-            closeButton.addEventListener('click', toggleSidebar);
-        }
+        // Load chart data from ViewBag
+        const salesLabels = @Html.Raw(Json.Serialize(ViewBag.SalesLabels));
+        const salesValues = @Html.Raw(Json.Serialize(ViewBag.SalesValues));
 
-        // Initialize the Sales Chart
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        const salesChart = new Chart(ctx, {
-            type: 'bar', // Bar chart
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June'], // X-axis labels
-                datasets: [{
-                    label: 'Total Sales',
-                    data: [500, 700, 800, 650, 900, 750], // Sales data
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-                        'rgba(153, 102, 255, 0.5)',
-                        'rgba(255, 159, 64, 0.5)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    },
-                    title: {
-                        display: true,
-                        text: 'Sales Data (Monthly)'
-                    }
+        console.log('Sales Labels:', salesLabels);
+        console.log('Sales Values:', salesValues);
+
+        // Initialize sales chart
+        const initializeChart = () => {
+            const ctx = document.getElementById('salesChart')?.getContext('2d');
+            if (!ctx) return;
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: salesLabels, // Month names
+                    datasets: [{
+                        label: 'Monthly Sales',
+                        data: salesValues, // Sales data
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Sales Data (Monthly)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
+            });
+        };
+
+        // Call the chart initialization function
+        initializeChart();
     });
+
 </script>

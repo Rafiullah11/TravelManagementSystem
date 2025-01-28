@@ -86,15 +86,5 @@ Contribution Guidelines
 
 Feel free to fork this repository and contribute via pull requests. Suggestions and improvements are always welcome.
 
-License
 
-This project is licensed under the MIT License. See LICENSE for more details.
-
-Acknowledgments
-
-ASP.NET Core Community
-
-Bootstrap Developers
-
-Open-source contributors
 

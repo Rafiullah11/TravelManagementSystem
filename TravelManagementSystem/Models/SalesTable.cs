@@ -8,8 +8,8 @@
         public Agent? Agent { get; set; }
         public Customer? Customer { get; set; }
 
-        public int AgentId { get; set; }
-        public int CustomerId { get; set; }
+        public int? AgentId { get; set; }
+        public int? CustomerId { get; set; }
 
         // Other properties
         public CountryEnum Country { get; set; }

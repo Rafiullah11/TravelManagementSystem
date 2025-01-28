@@ -14,7 +14,7 @@ namespace TravelManagementSystem.ViewModel
         public string? Company { get; set; }
         public Trade Trade { get; set; }
         public string? SubTrade { get; set; }
-        public DateTime FlightOn { get; set; }
+        public DateTime FlightOn { get; set; } = DateTime.Now;
         public string? Destination { get; set; }
         public CountryEnum Country { get; set; }
         public decimal Credit { get; set; }

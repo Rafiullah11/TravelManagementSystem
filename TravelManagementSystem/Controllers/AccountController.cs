@@ -85,21 +85,23 @@ namespace TravelManagementSystem.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+        //public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("index", "home");
-                    }
+                    return RedirectToAction("index", "home");
+                    //if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    //{
+                    //    return Redirect(returnUrl);
+                    //}
+                    //else
+                    //{
+                    //    return RedirectToAction("index", "home");
+                    //}
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Email or Password");

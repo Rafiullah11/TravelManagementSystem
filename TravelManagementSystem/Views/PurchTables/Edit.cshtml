@@ -4,32 +4,49 @@
     ViewData["Title"] = "Edit";
 }
 
-<div class="container p-3 mt-lg-3 content">
-    <div class="card shadow mb-4 col-lg-12">
-        <div class="card-body text-center bg-warning">
+
+<form class="border shadow col-lg-12" asp-controller="PurchTables" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="card shadow col-lg-12">
+        <div class="card-body text-center bg-theme-color">
             <h4 class="text-light">Edit Purchase Record</h4>
         </div>
     </div>
-
-    <form class="border border-warning shadow col-lg-12" asp-controller="PurchTables" asp-action="Edit" method="post">
-        <input type="hidden" asp-for="Id" />
-        <input type="hidden" name="CustomerId" value="@ViewBag.CustomerId" />
-        <input type="hidden" name="AgentId" value="@ViewBag.AgentId" />
-
-        <div class="row m-3">
+    <div class="card shadow p-3">
+        <div class="row m-2">
+            <!-- Agent Dropdown -->
             <div class="form-group col-lg-6">
-                <label asp-for="AgentId" class="control-label"></label>
-                <select asp-for="AgentId" class="form-select" asp-items="ViewBag.AgentId"></select>
+                <label asp-for="AgentId" class="control-label">Agents Name</label>
+                <select asp-for="AgentId" class="form-select" asp-items="ViewBag.AgentId">
+                    <option value="">-- Select Agent --</option>
+                </select>
                 <span asp-validation-for="AgentId" class="text-danger"></span>
             </div>
 
+            <!-- Customer Dropdown -->
             <div class="form-group col-lg-6">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerId"></select>
-
+                <label asp-for="CustomerId" class="control-label">Customer Name</label>
+                <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerId">
+                    <option value="">-- Select Customer --</option>
+                </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
         </div>
+
+        @* <div class="row m-3">
+        <div class="form-group col-lg-6">
+        <label asp-for="AgentId" class="control-label"></label>
+        <select asp-for="AgentId" class="form-select" asp-items="ViewBag.AgentId"></select>
+        <span asp-validation-for="AgentId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-lg-6">
+        <label asp-for="CustomerId" class="control-label"></label>
+        <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerId"></select>
+
+        <span asp-validation-for="CustomerId" class="text-danger"></span>
+        </div>
+        </div> *@
 
         <div class="row m-3">
             <div class="form-group col-lg-6">
@@ -42,7 +59,7 @@
                 <input asp-for="Company" class="form-control" />
                 <span asp-validation-for="Company" class="text-danger"></span>
             </div>
-            
+
         </div>
 
         <div class="row m-3">
@@ -56,7 +73,7 @@
                 <input asp-for="SubTrade" class="form-control" />
                 <span asp-validation-for="SubTrade" class="text-danger"></span>
             </div>
-           
+
         </div>
 
         <div class="row m-3">
@@ -74,21 +91,21 @@
 
         <div class="row m-3">
             <div class="form-group col-lg-6">
-                <label asp-for="Credit" class="control-label"></label>
-                <input asp-for="Credit" type="number" class="form-control" step="0.01" />
-                <span asp-validation-for="Credit" class="text-danger"></span>
-            </div>
-            <div class="form-group col-lg-6">
                 <label asp-for="Debit" class="control-label"></label>
                 <input asp-for="Debit" type="number" class="form-control" step="0.01" />
                 <span asp-validation-for="Debit" class="text-danger"></span>
+            </div>
+            <div class="form-group col-lg-6">
+                <label asp-for="Credit" class="control-label"></label>
+                <input asp-for="Credit" type="number" class="form-control" step="0.01" />
+                <span asp-validation-for="Credit" class="text-danger"></span>
             </div>
         </div>
 
         <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="Balance" class="control-label"></label>
-                <input asp-for="Balance" type="number" class="form-control disabled" step="0.01" />
+                <input asp-for="Balance" type="number" class="form-control" step="0.01" disabled />
                 <span asp-validation-for="Balance" class="text-danger"></span>
             </div>
             <div class="form-group col-lg-6">
@@ -98,20 +115,11 @@
             </div>
         </div>
 
-        <div class="row m-3">
-            <div class="form-group col-lg-6">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" type="datetime-local" class="form-control" readonly />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
-            </div>
-        </div>
-
         <div class="form-group m-4">
-            <input type="submit" value="Update Record" class="btn btn-warning" />
+            <input type="submit" value="Update Record" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-secondary">Cancel</a>
         </div>
-    </form>
-</div>
+</form>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

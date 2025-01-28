@@ -86,15 +86,32 @@ namespace TravelManagementSystem.Controllers
             return View(viewModel);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateLine(PurchLineCreateViewModel model)
         {
+            decimal balance = 0;
             if (ModelState.IsValid)
             {
-                // Create a new SalesTable entity
-                var salesLine = new SalesTable
+                // Fetch the previous balance (C2) from the database
+                var previousBalance = _context.PurchTables
+                    .Where(s => s.AgentId == model.AgentId)
+                    .OrderByDescending(s => s.CreatedOn)
+                    .Select(s => s.Balance)
+                    .FirstOrDefault(); // Get the last recorded balance or default to 0
+
+                if (previousBalance == null)
+                {
+                    balance = (model.Debit - model.Credit);
+                }
+                else
+                {
+                    // Apply the formula: IF(AND(Credit == 0, Debit == 0), 0, (Credit - Debit) + PreviousBalance)
+                    balance = (decimal)((model.Credit == 0 && model.Debit == 0) ? 0 : (model.Debit - model.Credit) + previousBalance);
+                }
+
+                // Create a new PurchTable entity
+                var purchLine = new PurchTable
                 {
                     AgentId = model.AgentId,
                     CustomerId = (int)model.CustomerId, // Set the selected CustomerId
@@ -104,20 +121,21 @@ namespace TravelManagementSystem.Controllers
                     FlightOn = model.FlightOn,
                     Destination = model.Destination,
                     Country = model.Country,
-                    Credit = model.Credit,
                     Debit = model.Debit,
+                    Credit = model.Credit,
+                    Balance = balance,
                     CreatedOn = DateTime.Now
                 };
 
                 // Save to database
-                _context.SalesTables.Add(salesLine);
+                _context.PurchTables.Add(purchLine);
                 await _context.SaveChangesAsync();
 
                 // Redirect back to the header and line page
                 return RedirectToAction("HeaderAndLine", new { id = model.AgentId });
             }
 
-            // If validation fails, return the view with the model
+            // If model state is not valid, return the view with the model to show validation errors
             return View(model);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TravelManagementSystem.Data;
 using TravelManagementSystem.Helpers;
 using TravelManagementSystem.Models;
@@ -94,12 +95,12 @@ namespace TravelManagementSystem.Controllers
         // POST: PurchTables/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Company,Trade,SubTrade,FlightOn,Destination,Country,Credit,Debit,AgentId,CustomerId,CreatedBy")] PurchTable PurchTable)
+        public async Task<IActionResult> Create(PurchTable PurchTable)
         {
             if (ModelState.IsValid)
             {
                 // Calculate balance
-                PurchTable.Balance = PurchTable.Credit - PurchTable.Debit;
+                PurchTable.Balance = PurchTable.Debit - PurchTable.Credit; 
                 PurchTable.CreatedOn = DateTime.Now;
 
                 _context.Add(PurchTable);
@@ -130,7 +131,7 @@ namespace TravelManagementSystem.Controllers
         // POST: PurchTables/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Company,Trade,SubTrade,FlightOn,Destination,Country,Credit,Debit,Balance,AgentId,CustomerId,CreatedBy,CreatedAt")] PurchTable purchTable)
+        public async Task<IActionResult> Edit(int id, PurchTable purchTable)
         {
             if (id != purchTable.Id)
                 return NotFound();
@@ -140,7 +141,7 @@ namespace TravelManagementSystem.Controllers
                 try
                 {
                     // Recalculate balance on edit
-                    purchTable.Balance = purchTable.Credit - purchTable.Debit;
+                    purchTable.Balance = purchTable.Debit - purchTable.Credit;
 
                     _context.Update(purchTable);
                     await _context.SaveChangesAsync();
@@ -158,6 +159,69 @@ namespace TravelManagementSystem.Controllers
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", purchTable.CustomerId);
             return View(purchTable);
         }
+
+        // Purchlines Update method
+        // GET: PurchTables/Edit/5
+        public async Task<IActionResult> PurchlinesUpdate(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var purchTable = await _context.PurchTables.FindAsync(id);
+            if (purchTable == null)
+                return NotFound();
+
+            ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", purchTable.AgentId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", purchTable.CustomerId);
+            return View(purchTable);
+        }
+
+        // POST: PurchTables/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("PurchTables/PurchlinesUpdate/{id}")]
+        public async Task<IActionResult> PurchlinesUpdate(int id, PurchTable purchTable,int agentId)
+        {
+            if (id != purchTable.Id)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Recalculate balance on edit
+                    // Fetch the previous balance from the database
+                    var lastBalance = _context.PurchTables
+                        .Where(s => s.AgentId == purchTable.AgentId)
+                        .OrderByDescending(s => s.CreatedOn)
+                        .Select(s => s.Balance)
+                        .FirstOrDefault(); // Get the last recorded balance or default to 0
+
+                    // Apply the formula: IF(AND(Credit == 0, Debit == 0), 0, (Credit - Debit) + PreviousBalance)
+                    var balance = (purchTable.Credit == 0 && purchTable.Debit == 0) ? 0 : (purchTable.Debit - purchTable.Credit) + lastBalance;
+
+                    // Update the balance
+                    purchTable.Balance = purchTable.Debit - purchTable.Credit;
+
+                    _context.Update(purchTable);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PurchTableeExists(purchTable.Id))
+                        return NotFound();
+                    throw;
+                }
+                return RedirectToAction("HeaderAndLine", "Agents", new { id = agentId });
+            }
+
+            ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", purchTable.AgentId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", purchTable.CustomerId);
+            //return View(purchTable);
+            return RedirectToAction("HeaderAndLine", "Agents", new { id = agentId });
+
+        }
+
 
         // GET: PurchTables/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -177,14 +241,44 @@ namespace TravelManagementSystem.Controllers
         }
 
         // POST: PurchTables/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id, PurchTable model)
         {
             var purchTable = await _context.PurchTables.FindAsync(id);
             _context.PurchTables.Remove(purchTable);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+
+        // GET: SalesTables/Delete/5
+        public async Task<IActionResult> DeletePurchLine(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var purchTable = await _context.PurchTables
+                .Include(s => s.Agent)
+                .Include(s => s.Customer)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (purchTable == null)
+                return NotFound();
+
+            return View(purchTable);
+        }
+
+        // POST: PurchTables/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("PurchTables/DeletePurchLine/{id}")]
+        public async Task<IActionResult> DeletePurchLine(int id, int agentId)
+        {
+            var purchTable = await _context.PurchTables.FindAsync(id);
+            _context.PurchTables.Remove(purchTable);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("HeaderAndLine", "Agents", new { id = agentId });
         }
 
         private bool PurchTableeExists(int id)

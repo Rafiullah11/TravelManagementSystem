@@ -70,7 +70,7 @@
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation example">
+
         <ul class="pagination justify-content-center mt-2">
             <!-- Previous Button -->
             <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
@@ -78,7 +78,7 @@
                    asp-route-sortOrder="@ViewData["CurrentSort"]"
                    asp-route-pageNumber="@(Model.PageIndex - 1)"
                    asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                    Previous
+                    <
                 </a>
             </li>
 
@@ -101,9 +101,8 @@
                    asp-route-sortOrder="@ViewData["CurrentSort"]"
                    asp-route-pageNumber="@(Model.PageIndex + 1)"
                    asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                    Next
+                    >
                 </a>
             </li>
         </ul>
-    </nav>
 </div>

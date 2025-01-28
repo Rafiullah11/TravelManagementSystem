@@ -1,14 +1,15 @@
 ﻿@model TravelManagementSystem.Models.SalesTable
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "SalesLinesUpdate";
 }
 
 @* <div class="container p-3 mt-lg-3 content"> *@
 
 
-<form class="border shadow col-lg-12" asp-controller="SalesTables" asp-action="Edit" method="post">
+<form class="border shadow col-lg-12" asp-controller="SalesTables" asp-action="SalesLinesUpdate" method="post">
     <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CustomerId" />
 
     <div class="card shadow col-lg-12">
         <div class="card-body text-center bg-theme-color">
@@ -105,7 +106,8 @@
         </div>
         <div class="form-group m-3">
             <input type="submit" value="Update Record" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <a asp-action="HeaderAndLine" asp-controller="Customers" asp-route-id="@Model.CustomerId" class="btn btn-secondary">Cancel</a>
+
         </div>
     </div>
 </form>

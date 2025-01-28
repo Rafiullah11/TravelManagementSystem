@@ -45,8 +45,8 @@
                     <th>Trade</th>
                     <th>Flight On</th>
                     <th>Destination</th>
-                    <th>Credit</th>
                     <th>Debit</th>
+                    <th>Credit</th>
                     <th>Balance</th>
                     <th>Actions</th>
                 </tr>
@@ -63,12 +63,13 @@
                             <td>@line.Trade</td>
                             <td>@line.FlightOn.ToShortDateString()</td>
                             <td>@line.Destination</td>
-                            <td>@line.Credit</td>
                             <td>@line.Debit</td>
+                            <td>@line.Credit</td>
                             <td>@line.Balance</td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@line.Id" class="btn btn-warning btn-sm">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@line.Id" class="btn btn-danger btn-sm">Delete</a>
+                                <a asp-action="PurchlinesUpdate" asp-controller="PurchTables" asp-route-id="@line.Id" class="btn btn-primary btn-sm">Edit</a>
+                                <a asp-action="DeletePurchLine" asp-controller="PurchTables" asp-route-id="@line.Id" class="btn btn-danger btn-sm">Delete</a>
+
                             </td>
                         </tr>
                         index++;

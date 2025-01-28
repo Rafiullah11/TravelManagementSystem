@@ -4,14 +4,15 @@
     ViewData["Title"] = "Create PurchTable";
 }
 
-<div class="container p-3 mt-lg-3 content">
-    <div class="card shadow mb-4 col-lg-12">
-        <div class="card-body text-center bg-warning">
-            <h4 class="text-light">Create Purchase</h4>
-        </div>
-    </div>
 
-    <form class="border border-warning shadow col-lg-12" enctype="multipart/form-data" asp-controller="SalesTables" asp-action="Create" method="post">
+    <form class="border shadow col-lg-12" enctype="multipart/form-data" asp-controller="SalesTables" asp-action="Create" method="post">
+        
+        <div class="card shadow col-lg-12">
+            <div class="card-body text-center bg-theme-color">
+                <h4 class="text-light">Create Purchase</h4>
+            </div>
+        </div>
+        <div class="card shadow">
         <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="AgentId" class="control-label"></label>
@@ -103,11 +104,11 @@
         </div>
 
         <div class="form-group m-4">
-            <input type="submit" value="Create" class="btn btn-warning" />
+            <input type="submit" value="Create" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         </div>
+        </div>
     </form>
-</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

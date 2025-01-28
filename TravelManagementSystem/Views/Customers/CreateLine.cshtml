@@ -1,18 +1,18 @@
 ﻿@model TravelManagementSystem.ViewModel.SalesLineCreateViewModel
 
-<div class="container p-3 mt-lg-3 content">
-    <div class="card shadow mb-2 col-lg-12">
-        <div class="card-body text-center bg-primary">
+
+<form class="border shadow col-lg-12" asp-action="CreateLine" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="CustomerId" />
+
+    <div class="card shadow col-lg-12">
+        <div class="card-body text-center bg-theme-color">
             <h4 class="text-light ">Add Lines</h4>
             <div class="d-flex justify-content-center gap-3 mt-3">
             </div>
         </div>
     </div>
-
-    <form class="border border-info shadow col-lg-12 p-3" asp-action="CreateLine" method="post">
-        @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="CustomerId" />
-
+    <div class="card shadow p-3">
         <div class="row mt-2">
             <div class="col-lg-6">
                 <label asp-for="CustName" class="form-label"></label>
@@ -30,7 +30,7 @@
                 <input type="text" class="form-control" asp-for="OfficeAddress" readonly />
             </div>
             <div class="col-lg-6">
-                <label asp-for="AgentId" class="form-label">Customer</label>
+                <label asp-for="AgentId" class="form-label">Agent</label>
                 <select asp-for="AgentId" class="form-select" asp-items="Model.Agents">
                     <option value="">Select Agent</option>
                 </select>
@@ -73,7 +73,7 @@
         <div class="row mt-2">
             <div class="col-lg-6">
                 <label asp-for="FlightOn" class="form-label"></label>
-                <input type="date" class="form-control" asp-for="FlightOn" />
+                <input type="date" class="form-control" asp-for="FlightOn"/>
             </div>
 
             <div class="col-lg-6">
@@ -82,20 +82,21 @@
             </div>
         </div>
         <div class="row mt-2">
-            <div class="col-lg-6">
-                <label asp-for="Credit" class="form-label"></label>
-                <input type="number" class="form-control" asp-for="Credit" />
-            </div>
+
 
             <div class="col-lg-6">
                 <label asp-for="Debit" class="form-label"></label>
                 <input type="number" class="form-control" asp-for="Debit" />
             </div>
+            <div class="col-lg-6">
+                <label asp-for="Credit" class="form-label"></label>
+                <input type="number" class="form-control" asp-for="Credit" />
+            </div>
         </div>
         <div class="form-group mt-3">
             <input type="submit" value="Create" class="btn btn-primary" />
-            <a asp-action="HeaderAndLine" asp-controller="Customers" asp-route-id="@Model.CustomerId"  class="btn btn-secondary">Cancel</a>
+            <a asp-action="HeaderAndLine" asp-controller="Customers" asp-route-id="@Model.CustomerId" class="btn btn-secondary">Cancel</a>
         </div>
+    </div>
 
-    </form>
-</div>
+</form>

@@ -28,14 +28,14 @@
                 <tr>
                     <th>Agent</th>
                     <th>Customer</th>
+                    <th>Country</th>
                     <th>Company</th>
                     <th>Trade</th>
                     <th>SubTrade</th>
                     <th>Flight On</th>
                     <th>Destination</th>
-                    <th>Country</th>
-                    <th>Credit</th>
                     <th>Debit</th>
+                    <th>Credit</th>
                     <th>Balance</th>
                     <th class="text-center">Actions</th>
                 </tr>
@@ -46,14 +46,14 @@
                     <tr>
                         <td>@item.Agent?.Name</td>
                         <td>@item.Customer?.Name</td>
+                        <td>@item.Country</td>
                         <td>@item.Company</td>
                         <td>@item.Trade</td>
                         <td>@item.SubTrade</td>
                         <td>@item.FlightOn.ToString("dd-MM-yyyy")</td>
                         <td>@item.Destination</td>
-                        <td>@item.Country</td>
-                        <td>@item.Credit.ToString("N2")</td>
                         <td>@item.Debit.ToString("N2")</td>
+                        <td>@item.Credit.ToString("N2")</td>
                         <td>@item.Balance?.ToString("N2")</td>
                         <td class="text-center">
                             <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-pen-to-square text-primary"></i></a> |
@@ -65,7 +65,7 @@
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation example">
+   
         <ul class="pagination justify-content-center mt-2">
             <!-- Previous Button -->
             <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
@@ -73,7 +73,7 @@
                    asp-route-sortOrder="@ViewData["CurrentSort"]"
                    asp-route-pageNumber="@(Model.PageIndex - 1)"
                    asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                    Previous
+                    <
                 </a>
             </li>
 
@@ -96,9 +96,8 @@
                    asp-route-sortOrder="@ViewData["CurrentSort"]"
                    asp-route-pageNumber="@(Model.PageIndex + 1)"
                    asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                    Next
+                    >
                 </a>
             </li>
         </ul>
-    </nav>
 </div>

@@ -27,14 +27,14 @@
                 <tr>
                     <th>Agent</th>
                     <th>Customer</th>
+                    <th>Country</th>
                     <th>Company</th>
                     <th>Trade</th>
                     <th>SubTrade</th>
                     <th>Flight On</th>
                     <th>Destination</th>
-                    <th>Country</th>
-                    <th>Credit</th>
                     <th>Debit</th>
+                    <th>Credit</th>
                     <th>Balance</th>
                     <th class="text-center">Actions</th>
                 </tr>
@@ -45,14 +45,14 @@
                     <tr>
                         <td>@sale.Agent?.Name</td>
                         <td>@sale.Customer?.Name</td>
+                        <td>@sale.Country</td>
                         <td>@sale.Company</td>
                         <td>@sale.Trade</td>
                         <td>@sale.SubTrade</td>
                         <td>@sale.FlightOn.ToString("dd-MM-yyyy")</td>
                         <td>@sale.Destination</td>
-                        <td>@sale.Country</td>
-                        <td>@sale.Credit.ToString("N2")</td>
                         <td>@sale.Debit.ToString("N2")</td>
+                        <td>@sale.Credit.ToString("N2")</td>
                         <td>@sale.Balance?.ToString("N2")</td>
                         <td class="text-center">
                             <a asp-action="Edit" asp-route-id="@sale.Id"><i class="fas fa-pen-to-square text-primary"></i></a> |
@@ -61,10 +61,16 @@
                         </td>
                     </tr>
                 }
+                <tr>
+                    <td colspan="12">
+                        <p class="offset-10">Total: @Model.Sum(m => m.Balance ?? 0).ToString("N2")</p>
+                    </td>
+                </tr>
+
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation example">
+    
         <ul class="pagination justify-content-center mt-2">
             <!-- Previous Button -->
             <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
@@ -72,7 +78,7 @@
                    asp-route-sortOrder="@ViewData["CurrentSort"]"
                    asp-route-pageNumber="@(Model.PageIndex - 1)"
                    asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                    Previous
+                    <
                 </a>
             </li>
 
@@ -95,9 +101,9 @@
                    asp-route-sortOrder="@ViewData["CurrentSort"]"
                    asp-route-pageNumber="@(Model.PageIndex + 1)"
                    asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                    Next
+                    >
                 </a>
             </li>
         </ul>
-    </nav>
+    
 </div>

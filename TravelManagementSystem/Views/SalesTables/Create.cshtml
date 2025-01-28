@@ -4,14 +4,20 @@
     ViewData["Title"] = "Create Sales";
 }
 
-<div class="container p-3 mt-lg-3 content">
-    <div class="card shadow mb-4 col-lg-12">
+@* <div class="card shadow mb-4 col-lg-12">
         <div class="card-body text-center bg-warning">
             <h4 class="text-light">Create Sales</h4>
         </div>
-    </div>
+    </div> *@
 
-    <form class="border border-warning shadow col-lg-12" enctype="multipart/form-data" asp-controller="SalesTables" asp-action="Create" method="post">
+<form class="border border-warning shadow col-lg-12" enctype="multipart/form-data" asp-controller="SalesTables" asp-action="Create" method="post">
+
+    <div class="card shadow col-lg-12">
+        <div class="card-body text-center bg-theme-color">
+            <h4 class="text-light">Create Sales</h4>
+        </div>
+    </div>
+    <div class="card shadow">
         <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="AgentId" class="control-label">Agents Name</label>
@@ -44,11 +50,11 @@
                 <input asp-for="Company" class="form-control" />
                 <span asp-validation-for="Company" class="text-danger"></span>
             </div>
-           
+
             @* <div class="form-group col-lg-6">
-                <label asp-for="Country" class="control-label"></label>
-                <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.Trade>()"></select>
-                <span asp-validation-for="Country" class="text-danger"></span>
+            <label asp-for="Country" class="control-label"></label>
+            <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.Trade>()"></select>
+            <span asp-validation-for="Country" class="text-danger"></span>
             </div> *@
         </div>
 
@@ -69,7 +75,7 @@
                 <span asp-validation-for="SubTrade" class="text-danger"></span>
             </div>
 
-            
+
         </div>
 
         <div class="row m-3">
@@ -84,10 +90,10 @@
                 <input asp-for="FlightOn" class="form-control" type="datetime-local" />
                 <span asp-validation-for="FlightOn" class="text-danger"></span>
             </div>
-         @*    <div class="form-group col-lg-6">
-                <label asp-for="Country" class="control-label"></label>
-                <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
-                <span asp-validation-for="Country" class="text-danger"></span>
+            @*    <div class="form-group col-lg-6">
+            <label asp-for="Country" class="control-label"></label>
+            <select asp-for="Country" class="form-control dropdown-toggle" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
+            <span asp-validation-for="Country" class="text-danger"></span>
             </div> *@
         </div>
 
@@ -128,8 +134,8 @@
             <input type="submit" value="Create" class="btn btn-warning" />
             <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

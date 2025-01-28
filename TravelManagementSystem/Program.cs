@@ -1,56 +1,64 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using TravelManagementSystem.Data;
+using TravelManagementSystem.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
-
-// Add authentication middleware
-builder.Services.AddAuthentication(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie();
+	options.Password.RequireDigit = true;
+	options.Password.RequireLowercase = false;
+	options.Password.RequireUppercase = false;
+	options.Password.RequiredUniqueChars = 1;
+	options.Password.RequiredLength = 3;
+	options.Password.RequireNonAlphanumeric = false;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie();
+
+builder.Services.AddMvc(options =>
+{
+	options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
+		.RequireAuthenticatedUser()
+		.Build()));
+}).AddXmlSerializerFormatters();
+
+//builder.Services.AddScoped<ITravelService, TravelService>(); // Add custom services
 
 var app = builder.Build();
 
-// Seed the database during application startup.
+// Seed the database
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-
-    try
-    {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-
-        // Ensure the database is created and seed data.
-        DbInitializer.Initialize(context);
-    }
-    catch (Exception ex)
-    {
-        // Log any exceptions during seeding (optional).
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred seeding the database.");
-    }
+	var services = scope.ServiceProvider;
+	try
+	{
+		var context = services.GetRequiredService<ApplicationDbContext>();
+		DbInitializer.Initialize(context); // Ensure database and seed data
+	}
+	catch (Exception ex)
+	{
+		var logger = services.GetRequiredService<ILogger<Program>>();
+		logger.LogError(ex, "An error occurred seeding the database.");
+	}
 }
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -58,11 +66,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // Add this
-app.UseAuthorization();  // Add this
+app.UseAuthentication(); // Required for Identity
+app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+	name: "default",
+	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

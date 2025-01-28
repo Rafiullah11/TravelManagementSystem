@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using TravelManagementSystem.Identity;
 using TravelManagementSystem.Models;
 
 namespace TravelManagementSystem.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
-    {
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+	{
         // Constructor
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

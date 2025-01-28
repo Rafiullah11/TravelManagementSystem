@@ -91,51 +91,65 @@ namespace TravelManagementSystem.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateLine(SalesLineCreateViewModel model)
-        {
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CreateLine(SalesLineCreateViewModel model)
+		{
+
             if (ModelState.IsValid)
-            {
+			{
+				// Fetch the previous balance (C2) from the database
+				var previousBalance = _context.SalesTables
+					.Where(s => s.CustomerId == model.CustomerId)
+					.OrderByDescending(s => s.CreatedOn)
+					.Select(s => s.Balance)
+					.FirstOrDefault(); // Get the last recorded balance or default to 0
+
+                decimal balance = 0;
+
+                if (previousBalance == null)
+                {
+                    balance = (model.Debit - model.Credit);
+                }
+                else
+                {
+                    // Apply the formula: IF(AND(Credit == 0, Debit == 0), 0, (Credit - Debit) + PreviousBalance)
+                    balance = (decimal)((model.Credit == 0 && model.Debit == 0) ? 0 : (model.Debit - model.Credit) + previousBalance);
+                }
+
                 // Create a new SalesTable entity
                 var salesLine = new SalesTable
-                {
-                    CustomerId = model.CustomerId, // Set the selected CustomerId
-                    AgentId = (int)model.AgentId,
-                    Company = model.Company,
-                    Trade = model.Trade,
-                    SubTrade = model.SubTrade,
-                    FlightOn = model.FlightOn,
-                    Destination = model.Destination,
-                    Country = model.Country,
-                    Credit = model.Credit,
-                    Debit = model.Debit,
-                    CreatedOn = DateTime.Now
-                };
+				{
+					CustomerId = model.CustomerId, // Set the selected CustomerId
+					AgentId = (int)model.AgentId,
+					Company = model.Company,
+					Trade = model.Trade,
+					SubTrade = model.SubTrade,
+					FlightOn = model.FlightOn,
+					Destination = model.Destination,
+					Country = model.Country,
+					Credit = model.Credit,
+					Debit = model.Debit,
+					Balance = balance,
+					CreatedOn = DateTime.Now
+				};
 
-                // Save to database
-                _context.SalesTables.Add(salesLine);
-                await _context.SaveChangesAsync();
+				// Save to the database
+				_context.SalesTables.Add(salesLine);
+				await _context.SaveChangesAsync();
 
-                // Redirect back to the header and line page
-                return RedirectToAction("HeaderAndLine", new { id = model.CustomerId });
-            }
+				// Redirect back to the header and line page
+				return RedirectToAction("HeaderAndLine", new { id = model.CustomerId });
+			}
 
-            // If validation fails, return the view with the model
-            return View(model);
-        }
+			// If validation fails, return the view with the model
+			return View(model);
+		}
 
 
-        //// GET: Customers
-        //public async Task<IActionResult> Index()
-        //{
-        //    var customers = await _context.Customers.ToListAsync();
-           
-        //    return View(customers);
-        //}
-
-        // GET: 
-        public async Task<IActionResult> Index(int? pageNumber, string currentFilter, string searchString)
+		// GET: 
+		public async Task<IActionResult> Index(int? pageNumber, string currentFilter, string searchString)
         {
             // If a new search string is provided, reset to the first page
             if (!string.IsNullOrEmpty(searchString))

@@ -91,12 +91,12 @@ namespace TravelManagementSystem.Controllers
         // POST: SalesTables/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Company,Trade,SubTrade,FlightOn,Destination,Country,Credit,Debit,AgentId,CustomerId,CreatedBy")] SalesTable salesTable)
+        public async Task<IActionResult> Create( SalesTable salesTable)
         {
             if (ModelState.IsValid)
             {
                 // Calculate balance
-                salesTable.Balance = salesTable.Credit - salesTable.Debit;
+                salesTable.Balance = salesTable.Debit - salesTable.Credit;
                 salesTable.CreatedOn = DateTime.Now;
 
                 _context.Add(salesTable);
@@ -109,25 +109,106 @@ namespace TravelManagementSystem.Controllers
             return View(salesTable);
         }
 
-        // GET: SalesTables/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+		// GET: SalesTables/Edit/5
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null)
+				return NotFound();
+
+			// Query to fetch SalesTable with related Agent and Customer details
+			var salesTable = await _context.SalesTables
+				.Where(s => s.Id == id)
+				.Include(s => s.Agent) // Include Agent details
+				.Include(s => s.Customer) // Include Customer details
+				.FirstOrDefaultAsync();
+
+			if (salesTable == null)
+				return NotFound();
+
+			// Populate ViewData for dropdowns
+			ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", salesTable.AgentId);
+			ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", salesTable.CustomerId);
+
+			return View(salesTable);
+		}
+
+		// POST: SalesTables/Edit/5
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, SalesTable salesTable)
+		{
+			if (id != salesTable.Id)
+				return NotFound();
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+                    // Fetch the previous balance (C2) from the database
+                    var previousBalance = _context.SalesTables
+                        .Where(s => s.CustomerId == salesTable.CustomerId)
+                        .OrderByDescending(s => s.CreatedOn)
+                        .Select(s => s.Balance)
+                        .FirstOrDefault(); // Get the last recorded balance or default to 0
+
+                    // Apply the formula: IF(AND(Credit == 0, Debit == 0), 0, (Credit - Debit) + PreviousBalance)
+                    var balance = (salesTable.Credit == 0 && salesTable.Debit == 0) ? 0 : (salesTable.Debit - salesTable.Credit) + previousBalance;
+
+                    // Update the balance
+                    salesTable.Balance = salesTable.Debit - salesTable.Credit;
+
+					// Update the SalesTable entity
+					_context.Update(salesTable);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!SalesTableExists(salesTable.Id))
+						return NotFound();
+					throw;
+				}
+
+				// Redirect back to Index after successful update
+				return RedirectToAction(nameof(Index));
+			}
+
+			// Repopulate ViewData in case of validation errors
+			ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", salesTable.AgentId);
+			ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", salesTable.CustomerId);
+
+			return View(salesTable);
+		}
+
+
+        //SalesLines Update method
+
+        // GET: SalesTables/SalesLinesUpdate/5
+        public async Task<IActionResult> SalesLinesUpdate(int? id)
         {
             if (id == null)
                 return NotFound();
 
-            var salesTable = await _context.SalesTables.FindAsync(id);
+            // Query to fetch SalesTable with related Agent and Customer details
+            var salesTable = await _context.SalesTables
+                .Where(s => s.Id == id)
+                .Include(s => s.Agent) // Include Agent details
+                .Include(s => s.Customer) // Include Customer details
+                .FirstOrDefaultAsync();
+
             if (salesTable == null)
                 return NotFound();
 
+            // Populate ViewData for dropdowns
             ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", salesTable.AgentId);
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", salesTable.CustomerId);
+
             return View(salesTable);
         }
-
-        // POST: SalesTables/Edit/5
+        // POST: SalesTables/SalesLinesUpdate/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Company,Trade,SubTrade,FlightOn,Destination,Country,Credit,Debit,Balance,AgentId,CustomerId,CreatedBy,CreatedAt")] SalesTable salesTable)
+        [Route("SalesTables/SalesLinesUpdate/{id}")]
+        public async Task<IActionResult> SalesLinesUpdate(int id, SalesTable salesTable, int customerId)
         {
             if (id != salesTable.Id)
                 return NotFound();
@@ -136,9 +217,20 @@ namespace TravelManagementSystem.Controllers
             {
                 try
                 {
-                    // Recalculate balance on edit
-                    salesTable.Balance = salesTable.Credit - salesTable.Debit;
+                    // Fetch the previous balance (C2) from the database
+                    var previousBalance = _context.SalesTables
+                        .Where(s => s.CustomerId == salesTable.CustomerId)
+                        .OrderByDescending(s => s.CreatedOn)
+                        .Select(s => s.Balance)
+                        .FirstOrDefault(); // Get the last recorded balance or default to 0
 
+                    // Apply the formula: IF(AND(Credit == 0, Debit == 0), 0, (Credit - Debit) + PreviousBalance)
+                    var balance = (salesTable.Credit == 0 && salesTable.Debit == 0) ? 0 : (salesTable.Debit - salesTable.Credit) + previousBalance;
+
+                    // Update the balance
+                    salesTable.Balance = salesTable.Debit - salesTable.Credit;
+
+                    // Update the SalesTable entity
                     _context.Update(salesTable);
                     await _context.SaveChangesAsync();
                 }
@@ -148,12 +240,18 @@ namespace TravelManagementSystem.Controllers
                         return NotFound();
                     throw;
                 }
-                return RedirectToAction(nameof(Index));
+
+                // Redirect back to Index after successful update
+                return RedirectToAction("HeaderAndLine", "Customers", new { id = customerId });
+
             }
 
+            // Repopulate ViewData in case of validation errors
             ViewData["AgentId"] = new SelectList(_context.Agents, "Id", "Name", salesTable.AgentId);
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Name", salesTable.CustomerId);
-            return View(salesTable);
+
+            return RedirectToAction("HeaderAndLine", "Customers", new { id = customerId });
+
         }
 
         // GET: SalesTables/Delete/5
@@ -174,14 +272,47 @@ namespace TravelManagementSystem.Controllers
         }
 
         // POST: SalesTables/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id, SalesTable model)
         {
             var salesTable = await _context.SalesTables.FindAsync(id);
             _context.SalesTables.Remove(salesTable);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        
+        
+        // GET: SalesTables/Delete/5
+		public async Task<IActionResult> DeleteSalesLine(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var salesTable = await _context.SalesTables
+                .Include(s => s.Agent)
+                .Include(s => s.Customer)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (salesTable == null)
+                return NotFound();
+
+            return View(salesTable);
+        }
+
+        // POST: SalesTables/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("SalesTables/DeleteSalesLine/{id}")]
+        public async Task<IActionResult> DeleteSalesLine(int id, int customerId)
+        {
+            var salesTable = await _context.SalesTables.FindAsync(id);
+            if (salesTable != null)
+            {
+                _context.SalesTables.Remove(salesTable);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("HeaderAndLine", "Customers", new { id = customerId });
         }
 
         private bool SalesTableExists(int id)

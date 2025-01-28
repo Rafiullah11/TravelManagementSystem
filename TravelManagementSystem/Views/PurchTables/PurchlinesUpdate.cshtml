@@ -1,18 +1,18 @@
-﻿@model TravelManagementSystem.Models.SalesTable
+﻿@model TravelManagementSystem.Models.PurchTable
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "PurchlinesUpdate";
 }
 
-@* <div class="container p-3 mt-lg-3 content"> *@
 
-
-<form class="border shadow col-lg-12" asp-controller="SalesTables" asp-action="Edit" method="post">
+<form class="border shadow col-lg-12" asp-controller="PurchTables" asp-action="PurchlinesUpdate" method="post">
     <input type="hidden" asp-for="Id" />
+
+    <input type="hidden" asp-for="AgentId" />
 
     <div class="card shadow col-lg-12">
         <div class="card-body text-center bg-theme-color">
-            <h4 class="text-light">Edit Sales Record</h4>
+            <h4 class="text-light">Edit Purchase Record</h4>
         </div>
     </div>
     <div class="card shadow p-3">
@@ -36,7 +36,8 @@
             </div>
         </div>
 
-        <div class="row m-2">
+
+        <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="Country" class="control-label"></label>
                 <select asp-for="Country" class="form-select" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.CountryEnum>()"></select>
@@ -50,7 +51,7 @@
 
         </div>
 
-        <div class="row m-2">
+        <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="Trade" class="control-label"></label>
                 <select asp-for="Trade" class="form-select" asp-items="Html.GetEnumSelectList<TravelManagementSystem.Models.Trade>()"></select>
@@ -64,7 +65,7 @@
 
         </div>
 
-        <div class="row m-2">
+        <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="Destination" class="control-label"></label>
                 <input asp-for="Destination" class="form-control" />
@@ -77,7 +78,7 @@
             </div>
         </div>
 
-        <div class="row m-2">
+        <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="Debit" class="control-label"></label>
                 <input asp-for="Debit" type="number" class="form-control" step="0.01" />
@@ -88,26 +89,26 @@
                 <input asp-for="Credit" type="number" class="form-control" step="0.01" />
                 <span asp-validation-for="Credit" class="text-danger"></span>
             </div>
-
         </div>
 
-        <div class="row m-2">
+        <div class="row m-3">
             <div class="form-group col-lg-6">
                 <label asp-for="Balance" class="control-label"></label>
                 <input asp-for="Balance" type="number" class="form-control" step="0.01" disabled />
                 <span asp-validation-for="Balance" class="text-danger"></span>
             </div>
-            <div class="form-group col-lg-6">
+           @*  <div class="form-group col-lg-6">
                 <label asp-for="CreatedBy" class="control-label"></label>
                 <input asp-for="CreatedBy" class="form-control" readonly />
                 <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
+            </div> *@
         </div>
-        <div class="form-group m-3">
+
+        <div class="form-group m-4">
             <input type="submit" value="Update Record" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <a asp-action="HeaderAndLine" asp-controller="Agents" asp-route-id="@Model.AgentId" class="btn btn-secondary">Cancel</a>
+
         </div>
-    </div>
 </form>
 
 @section Scripts {

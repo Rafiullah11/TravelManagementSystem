@@ -6,16 +6,20 @@
     var ExistdocumentPath = "~/documents/" + (Model.ExistingScanDocumentPath ?? "placeholder.pdf");
 }
 
-<div class="container p-3 mt-lg-3 content">
-    <div class="card shadow mb-4 col-lg-12">
-        <div class="card-body text-center bg-warning">
-            <h4 class="text-light">Edit Customer</h4>
-        </div>
-    </div>
 
-    <form class="border border-warning shadow col-lg-12" enctype="multipart/form-data" asp-controller="Customers" asp-action="Edit" method="post">
+    <form class="border shadow col-lg-12" enctype="multipart/form-data" asp-controller="Customers" asp-action="Edit" method="post">
+        
+        
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="ExistingScanDocumentPath" />
+
+        <div class="card shadow mb-4 col-lg-12">
+            <div class="card-body text-center bg-theme-color">
+                <h4 class="text-light ">Update Customer</h4>
+                <div class="d-flex justify-content-center gap-3 mt-3">
+                </div>
+            </div>
+        </div>
 
         <div class="row m-3">
             <div class="form-group col-lg-6">
@@ -80,7 +84,7 @@
 
 
         <div class="form-group m-4 ">
-            <input type="submit" value="Update Record" class="btn btn-warning" />
+        <input type="submit" value="Update Record" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         </div>
     </form>

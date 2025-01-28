@@ -46,7 +46,7 @@ Installation
 
 Clone this repository:
 
-git clone https://github.com/your-username/travel-management-system.git
+git clone https://github.com/Rafiullah11/travel-management-system.git
 
 Navigate to the project directory:
 
